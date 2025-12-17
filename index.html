@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Викторины - Главная</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="wheel.css">
+</head>
+<body>
+    <div class="animated-background">
+        <div class="particles-container" id="particles"></div>
+        <div class="floating-elements">
+            <div class="floating-element el-1">🏛</div>
+            <div class="floating-element el-2">⚔️</div>
+            <div class="floating-element el-3">👑</div>
+            <div class="floating-element el-4">📜</div>
+            <div class="floating-element el-5">🏆</div>
+        </div>
+        <div class="gradient-overlay"></div>
+        <div class="light-beam beam-1"></div>
+        <div class="light-beam beam-2"></div>
+        <div class="light-beam beam-3"></div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="window.location.href='index.html'">
+                <div class="logo-icon">📜</div>
+                <div class="logo-text">
+                    <h1>Викторины</h1>
+                    <p>11 класс - История</p>
+                </div>
+            </div>
+            
+<div class="header-buttons">
+    <div class="textbook-btn" onclick="window.location.href='textbook.html'">
+        <div class="textbook-icon">📚</div>
+    </div>
+    <div class="class-wheel-btn" onclick="showClassSelector()">
+        <div class="wheel-icon">🎡</div>
+    </div>
+</div>
+
+            <nav class="luxury-nav">
+                <a href="index.html" class="nav-item active">Главная</a>
+                <a href="quiz.html" class="nav-item">Викторины</a>
+                <a href="leaders.html" class="nav-item">Таблица лидеров</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content fade-in-up">
+                <div class="hero-badge">Проверь свои знания истории</div>
+                <h2>Проверьте свои <span class="accent">знания</span> с нашими викторинами</h2>
+                <p>Увлекательные тесты от Влада и Саши!</p>
+                <div class="hero-actions">
+                    <a href="quiz.html" class="luxury-btn btn-primary">
+                        <span>Пройти викторину</span>
+                    </a>
+                    <a href="leaders.html" class="luxury-btn btn-secondary">
+                        <span>Таблица лидеров</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="elegant-card card-1 floating">
+                    <div class="card-icon">🏛</div>
+                    <div class="card-title">Культура Беларуси XIX-XX веков</div>
+                </div>
+                <div class="elegant-card card-2 floating delay-1">
+                    <div class="card-icon">⚔️</div>
+                    <div class="card-title">Первая мировая война</div>
+                </div>
+                <div class="elegant-card card-3 floating delay-2">
+                    <div class="card-icon">👑</div>
+                    <div class="card-title">Российская Империя</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>3 викторины</h3>
+                    <p>Разнообразные темы</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3>24/7</h3>
+                    <p>Доступ к викторинам в любое время</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-content">
+                <div class="cta-icon">🏆</div>
+                <h2>Готовы пройти викторину?</h2>
+                <p>Увлекательные викторины с интересными вопросами</p>
+                <a href="quiz.html" class="luxury-btn btn-primary btn-large">
+                    <span>Пройти викторину и получить активность</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">📜</div>
+                    <div class="footer-brand-text">
+                        <h3>Викторины</h3>
+                        <p>Для связи - скоро...</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Навигация</h4>
+                        <a href="index.html">Главная</a>
+                        <a href="quiz.html">Викторины</a>
+                        <a href="leaders.html">Таблица лидеров</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Темы</h4>
+                        <a href="quiz.html">Культура Беларуси</a>
+                        <a href="quiz.html">Первая мировая война</a>
+                        <a href="quiz.html">Российская Империя</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Проект</h4>
+                        <a href="javascript:void(0)">О разработчиках</a>
+                        <a href="javascript:void(0)">Для учителей</a>
+                        <a href="javascript:void(0)">Поддержка</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p>&copy; 2025 Викторины. Все права защищены.</p>
+                    <p>Проект для учащихся 11 классов. Разработано Владом и Сашей.</p>
+                </div>
+                <div class="footer-badge">
+                    <span>🏆</span>
+                    <span>окак</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<div id="class-selector-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Выберите ваш класс</h3>
+            <span class="close-modal" onclick="closeClassSelector()">&times;</span>
+        </div>
+        <div class="class-selector">
+            <div class="class-option" data-class="А" onclick="selectClass('А')">
+                <div class="class-card">
+                    <div class="class-icon">🔬</div>
+                    <div class="class-info">
+                        <div class="class-name">11А</div>
+                        <div class="class-label">Физмат</div>
+                    </div>
+                    <div class="class-check">
+                        <div class="check-circle"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="class-option" data-class="Б" onclick="selectClass('Б')">
+                <div class="class-card">
+                    <div class="class-icon">💼</div>
+                    <div class="class-info">
+                        <div class="class-name">11Б</div>
+                        <div class="class-label">Эконом</div>
+                    </div>
+                    <div class="class-check">
+                        <div class="check-circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wheel-modal" class="modal">
+    <div class="modal-content wheel-modal-content">
+        <div class="modal-header">
+            <h3>🎡 Колесо активностей - 11<span id="selected-class">А</span></h3>
+            <span class="close-modal" onclick="closeWheelModal()">&times;</span>
+        </div>
+        <div class="wheel-container">
+            <div id="wheel-wrapper">
+                <canvas id="wheel-canvas"></canvas>
+                <div id="wheel-arrow"></div>
+                <div id="wheel-center">
+                    <button id="spin-button">КРУТИТЬ</button>
+                </div>
+                <div id="wheel-status"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${posX}%;
+                    top: ${posY}%;
+                    animation-duration: ${duration}s;
+                    animation-delay: ${delay}s;
+                    opacity: ${Math.random() * 0.3 + 0.1};
+                `;
+                
+                container.appendChild(particle);
+            }
+        }
+
+function showClassSelector() {
+    document.getElementById('class-selector-modal').style.display = 'block';
+}
+
+function closeClassSelector() {
+    document.getElementById('class-selector-modal').style.display = 'none';
+}
+
+function selectClass(className) {
+    document.getElementById('selected-class').textContent = className;
+    closeClassSelector();
+    showWheelModal();
+}
+
+function showWheelModal() {
+    const selectedClass = document.getElementById('selected-class').textContent;
+    document.getElementById('wheel-modal').style.display = 'block';
+    setTimeout(() => {
+        if (typeof initWheel === 'function') {
+            initWheel(selectedClass);
+        }
+    }, 300);
+}
+
+function closeWheelModal() {
+    document.getElementById('wheel-modal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    const classModal = document.getElementById('class-selector-modal');
+    const wheelModal = document.getElementById('wheel-modal');
+    
+    if (event.target === classModal) {
+        closeClassSelector();
+    }
+    if (event.target === wheelModal) {
+        closeWheelModal();
+    }
+}
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            const cards = document.querySelectorAll('.elegant-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.3}s`;
+            });
+
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-15px) scale(1.05)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p2.js/0.6.0/p2.min.js"></script>
+    <script src="wheel.js"></script>
+</body>
+</html>

@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица лидеров - Викторины</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="wheel.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <div class="animated-background">
+        <div class="particles-container" id="particles"></div>
+        <div class="floating-elements">
+            <div class="floating-element el-1">🏛</div>
+            <div class="floating-element el-2">⚔️</div>
+            <div class="floating-element el-3">👑</div>
+            <div class="floating-element el-4">📜</div>
+            <div class="floating-element el-5">🏆</div>
+        </div>
+        <div class="gradient-overlay"></div>
+        <div class="light-beam beam-1"></div>
+        <div class="light-beam beam-2"></div>
+        <div class="light-beam beam-3"></div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="window.location.href='index.html'">
+                <div class="logo-icon">📜</div>
+                <div class="logo-text">
+                    <h1>Викторины</h1>
+                    <p>11 класс - История</p>
+                </div>
+            </div>
+            
+<div class="header-buttons">
+    <div class="textbook-btn" onclick="window.location.href='textbook.html'">
+        <div class="textbook-icon">📚</div>
+    </div>
+    <div class="class-wheel-btn" onclick="showClassSelector()">
+        <div class="wheel-icon">🎡</div>
+    </div>
+</div>
+
+            <nav class="luxury-nav">
+                <a href="index.html" class="nav-item">Главная</a>
+                <a href="quiz.html" class="nav-item">Викторины</a>
+                <a href="leaders.html" class="nav-item active">Таблица лидеров</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="quiz-container">
+        <div id="quiz-selection-screen" class="screen active">
+            <div class="quiz-selection-header">
+                <h2>Рейтинг классов</h2>
+            </div>
+
+            <div class="quiz-grid">
+                <div class="quiz-card" onclick="showLeaderboard('paragraph_14')">
+                    <div class="quiz-image">
+                        <img src="images/quiz_covers/culture_cover.jpg" alt="Культура Беларуси" class="quiz-cover-image">
+                    </div>
+                    <div class="quiz-content">
+                        <h3 class="quiz-title">§ 14. Развитие культуры Беларуси в XIX — начале ХХ в.</h3>
+                    </div>
+                </div>
+
+                <div class="quiz-card" onclick="showLeaderboard('paragraph_15')">
+                    <div class="quiz-image">
+                        <img src="images/quiz_covers/medieval_cover.jpg" alt="Первая мировая война" class="quiz-cover-image">
+                    </div>
+                    <div class="quiz-content">
+                        <h3 class="quiz-title">§ 15. Первая мировая война как рубежный период мировой истории</h3>
+                    </div>
+                </div>
+
+                <div class="quiz-card" onclick="showLeaderboard('paragraph_16')">
+                    <div class="quiz-image">
+                        <img src="images/quiz_covers/empire_cover.jpg" alt="Беларусь в ПМВ" class="quiz-cover-image">
+                    </div>
+                    <div class="quiz-content">
+                        <h3 class="quiz-title">§ 16. Беларусь в годы Первой мировой войны</h3>
+                    </div>
+                </div>
+                 
+                <div class="quiz-card" onclick="showLeaderboard('paragraph_17')">
+                    <div class="quiz-image">
+                        <img src="images/quiz_covers/paragraph17_cover.jpg" alt="Мир в межвоенный период" class="quiz-cover-image">
+                    </div>
+                    <div class="quiz-content">
+                        <h3 class="quiz-title">§ 17. Мир в межвоенный период</h3>
+                    </div>
+                </div>
+
+                <div class="quiz-card" onclick="showLeaderboard('paragraph_18')">
+                    <div class="quiz-image">
+                        <img src="images/quiz_covers/revolution_cover.jpg" alt="Установление советской власти" class="quiz-cover-image">
+                    </div>
+                    <div class="quiz-content">
+                       <h3 class="quiz-title">§ 18. Установление советской власти в Беларуси</h3>
+                    </div>
+                </div>
+                <div class="quiz-card" onclick="showLeaderboard('paragraph_19')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph19_cover.jpg" alt="Страны Европы и США" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 19. Страны Европы и США в 1920-1930-е годы</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="showLeaderboard('paragraph_20')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph20_cover.jpg" alt="Деколонизация" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 20. Национально-освободительные движения и деколонизация</h3>
+    </div>
+</div>
+
+<div class="quiz-card" onclick="showLeaderboard('paragraph_21')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph21_cover.jpg" alt="СССР 1917-1939" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 21. Советская Россия и СССР в 1917-1939 гг.</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="showLeaderboard('paragraph_22')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph22_cover.jpg" alt="Белорусская государственность" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 22. Становление белорусской государственности</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="showLeaderboard('paragraph_23')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph23_cover.jpg" alt="Социально-экономическое развитие БССР" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 23. Социально-экономическое и общественно-политическое развитие БССР в 1920-1930-е годы</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="showLeaderboard('paragraph_24')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph24_cover.jpg" alt="Западная Беларусь в составе Польши" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 24. Западная Беларусь в составе Польши (1921-1939 гг.)</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="showLeaderboard('paragraph_25')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph25_cover.jpg" alt="Развитие культуры 1920-30-е" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 25. Развитие культуры в 1920-1930-е годы</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="showLeaderboard('paragraph_26')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph26_cover.jpg" alt="Международные отношения 1930-е" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 26. Международные отношения в 1930-е годы и начало Второй мировой войны</h3>
+    </div>
+</div>
+            </div>
+
+            <div class="admin-panel">
+                <button class="luxury-btn btn-secondary btn-compact" onclick="showPasswordModal()">
+                    🛠 Администрирование
+                </button>
+            </div>
+        </div>
+
+        <div id="leaderboard-screen" class="screen">
+            <div class="leaderboard-screen">
+                <button class="luxury-btn btn-secondary btn-small" onclick="showQuizSelection()">
+                    ← Назад к темам
+                </button>
+
+                <div class="leaderboard-header">
+                    <h2 class="page-title" id="quiz-title">Параграф 14</h2>
+                </div>
+
+                <div class="leaders-container">
+                    <div class="leaderboard-list" id="leaders-list">
+                    </div>
+                </div>
+
+                <div class="admin-panel">
+                    <button class="luxury-btn btn-secondary btn-compact" onclick="showPasswordModal()">
+                        🛠 Администрирование
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Введите пароль администратора</h3>
+                <span class="close-modal" onclick="hidePasswordModal()">&times;</span>
+            </div>
+            <div class="modal-body" style="padding: 2rem;">
+                <input type="password" id="admin-password" class="answer-btn" placeholder="Секретный пароль" style="width: 100%; margin-bottom: 2rem; padding: 1rem; font-size: 1.1rem;">
+                <div class="quiz-navigation" style="justify-content: center; gap: 1rem;">
+                    <button class="luxury-btn btn-secondary" onclick="hidePasswordModal()">Отмена</button>
+                    <button class="luxury-btn btn-primary" onclick="checkAdminPassword()">Подтвердить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirm-clear-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Подтверждение очистки</h3>
+                <span class="close-modal" onclick="hideConfirmClearModal()">&times;</span>
+            </div>
+            <div class="modal-body" style="padding: 2rem;">
+                <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem; color: white;">
+                    🚨 ВНИМАНИЕ! Это действие невозможно отменить.<br>
+                    Все результаты будут безвозвратно удалены.<br>
+                    Продолжить?
+                </p>
+                <div class="quiz-navigation" style="justify-content: center; gap: 1rem;">
+                    <button class="luxury-btn btn-secondary" onclick="hideConfirmClearModal()">Отмена</button>
+                    <button class="luxury-btn btn-primary" onclick="clearAllResults()">Да, очистить всё</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="class-selector-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Выберите ваш класс</h3>
+                <span class="close-modal" onclick="closeClassSelector()">&times;</span>
+            </div>
+            <div class="class-selector">
+                <div class="class-option" data-class="А" onclick="selectClass('А')">
+                    <div class="class-card">
+                        <div class="class-icon">🔬</div>
+                        <div class="class-info">
+                            <div class="class-name">11А</div>
+                            <div class="class-label">Физмат</div>
+                        </div>
+                        <div class="class-check">
+                            <div class="check-circle"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="class-option" data-class="Б" onclick="selectClass('Б')">
+                    <div class="class-card">
+                        <div class="class-icon">💼</div>
+                        <div class="class-info">
+                            <div class="class-name">11Б</div>
+                            <div class="class-label">Эконом</div>
+                        </div>
+                        <div class="class-check">
+                            <div class="check-circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="wheel-modal" class="modal">
+        <div class="modal-content wheel-modal-content">
+            <div class="modal-header">
+                <h3>🎡 Колесо фортуны - 11<span id="selected-class">А</span></h3>
+                <span class="close-modal" onclick="closeWheelModal()">&times;</span>
+            </div>
+            <div class="wheel-container">
+                <div id="wheel-wrapper">
+                    <canvas id="wheel-canvas"></canvas>
+                    <div id="wheel-arrow"></div>
+                    <div id="wheel-center">
+                        <button id="spin-button">КРУТИТЬ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">📜</div>
+                    <div class="footer-brand-text">
+                        <h3>Викторины</h3>
+                        <p>Для связи - скоро...</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Навигация</h4>
+                        <a href="index.html">Главная</a>
+                        <a href="quiz.html">Викторины</a>
+                        <a href="leaders.html">Таблица лидеров</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Темы</h4>
+                        <a href="quiz.html">Культура Беларуси</a>
+                        <a href="quiz.html">Первая мировая война</a>
+                        <a href="quiz.html">Российская Империя</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Проект</h4>
+                        <a href="javascript:void(0)">О разработчиках</a>
+                        <a href="javascript:void(0)">Для учителей</a>
+                        <a href="javascript:void(0)">Поддержка</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p>&copy; 2025 Викторины. Все права защищены.</p>
+                    <p>Проект для учащихся 11 классов. Разработано Владом и Сашей.</p>
+                </div>
+                <div class="footer-badge">
+                    <span>🏆</span>
+                    <span>окак</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+const quizDatabase = {
+    paragraph_14: {
+        title: "§ 14. Развитие культуры Беларуси в XIX — начале ХХ в.",
+        coverImage: "images/quiz_covers/culture_cover.jpg"
+    },
+    paragraph_15: {
+        title: "§ 15. Первая мировая война как рубежный период мировой истории",
+        coverImage: "images/quiz_covers/medieval_cover.jpg"
+    },
+    paragraph_16: {
+        title: "§ 16. Беларусь в годы Первой мировой войны",
+        coverImage: "images/quiz_covers/empire_cover.jpg"
+    },
+    paragraph_17: {
+        title: "§ 17. Мир в межвоенный период",
+        coverImage: "images/quiz_covers/paragraph17_cover.jpg"
+    },
+    paragraph_18: {
+        title: "§ 18. Установление советской власти в Беларуси",
+        coverImage: "images/quiz_covers/revolution_cover.jpg"
+    },
+    paragraph_19: {
+        title: "§ 19. Страны Европы и США в 1920-1930-е годы",
+        coverImage: "images/quiz_covers/paragraph19_cover.jpg"
+    },
+     paragraph_20: {
+    title: "§ 20. Национально-освободительные движения и деколонизация",
+    coverImage: "images/quiz_covers/paragraph20_cover.jpg"
+    },
+     paragraph_21: {
+    title: "§ 21. Советская Россия и СССР в 1917-1939 гг.",
+    coverImage: "images/quiz_covers/paragraph21_cover.jpg"
+    },
+    paragraph_22: {
+        title: "§ 22. Становление белорусской государственности",
+        coverImage: "images/quiz_covers/paragraph22_cover.jpg"
+    },
+    paragraph_23: {
+    title: "§ 23. Социально-экономическое и общественно-политическое развитие БССР в 1920-1930-е годы",
+    coverImage: "images/quiz_covers/paragraph23_cover.jpg"
+    },
+    paragraph_24: {
+    title: "§ 24. Западная Беларусь в составе Польши (1921-1939 гг.)",
+    coverImage: "images/quiz_covers/paragraph24_cover.jpg"
+    },
+    paragraph_25: {
+    title: "§ 25. Развитие культуры в 1920-1930-е годы",
+    coverImage: "images/quiz_covers/paragraph25_cover.jpg"
+    },
+    paragraph_26: {
+    title: "§ 26. Международные отношения в 1930-е годы и начало Второй мировой войны",
+    coverImage: "images/quiz_covers/paragraph26_cover.jpg"
+    },
+};
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDk1oxsi6xZVv1yf_-8SpOk4b1lapgr6bI",
+            authDomain: "quiz-834d2.firebaseapp.com",
+            projectId: "quiz-834d2",
+            storageBucket: "quiz-834d2.firebasestorage.app",
+            messagingSenderId: "287075846771",
+            appId: "1:287075846771:web:e94f93858c2a18a47cb806",
+            measurementId: "G-TSEBHY1WNX"
+        };
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+        } catch (error) {
+            console.log('Firebase уже инициализирован');
+        }
+
+        const db = firebase.firestore();
+        const ADMIN_PASSWORD = "22072024";
+
+        function formatTime(seconds) {
+            if (seconds < 60) {
+                return `${seconds} сек`;
+            } else {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `${minutes} мин. ${remainingSeconds} сек`;
+            }
+        }
+
+        async function getResultsFromFirebase(quizId = null) {
+            try {
+                console.log('🔍 Загрузка результатов для викторины:', quizId);
+                
+                let query = db.collection('quizResults');
+                
+                if (quizId) {
+                    query = query.where('quizId', '==', quizId);
+                }
+                
+                const snapshot = await query.get();
+                const results = [];
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    results.push({
+                        id: doc.id,
+                        ...data
+                    });
+                });
+                
+                console.log('📊 Загружено результатов из Firebase:', results.length, results);
+                
+                const uniqueResults = [];
+                const seenNames = new Set();
+                
+                results.forEach(result => {
+                    if (!seenNames.has(result.playerName)) {
+                        seenNames.add(result.playerName);
+                        uniqueResults.push(result);
+                    }
+                });
+                
+                uniqueResults.sort((a, b) => {
+                    if (b.score !== a.score) {
+                        return b.score - a.score;
+                    }
+                    return a.time - b.time;
+                });
+                
+                return uniqueResults;
+            } catch (error) {
+                console.error('❌ Ошибка загрузки из Firebase:', error);
+                return getResultsFromLocalStorage(quizId);
+            }
+        }
+
+        function getResultsFromLocalStorage(quizId = null) {
+            try {
+                const leaders = JSON.parse(localStorage.getItem('quizLeaders') || '[]');
+                const formattedLeaders = leaders.map(item => ({
+                    playerName: item.name,
+                    score: item.score,
+                    time: item.time,
+                    quizId: item.quizId,
+                    quizTitle: item.quiz,
+                    timestamp: item.timestamp
+                }));
+                
+                if (quizId) {
+                    return formattedLeaders.filter(leader => leader.quizId === quizId);
+                }
+                return formattedLeaders;
+            } catch (e) {
+                console.error('Ошибка загрузки локальных данных:', e);
+                return [];
+            }
+        }
+
+        function showQuizSelection() {
+            document.getElementById('quiz-selection-screen').classList.add('active');
+            document.getElementById('leaderboard-screen').classList.remove('active');
+            hidePasswordModal();
+            hideConfirmClearModal();
+        }
+
+        function showLeaderboard(quizId) {
+            document.getElementById('quiz-selection-screen').classList.remove('active');
+            document.getElementById('leaderboard-screen').classList.add('active');
+            hidePasswordModal();
+            hideConfirmClearModal();
+            
+            const quiz = quizDatabase[quizId];
+            document.getElementById('quiz-title').textContent = quiz.title;
+            
+            loadLeadersForQuiz(quizId);
+        }
+
+        async function loadLeadersForQuiz(quizId) {
+            const container = document.getElementById('leaders-list');
+            
+            container.innerHTML = `
+                <div class="leader-item" style="text-align: center; justify-content: center;">
+                    <div class="leader-stat">⏳ Загрузка результатов...</div>
+                </div>
+            `;
+            
+            try {
+                console.log('🔄 Начало загрузки лидеров для:', quizId);
+                
+                const leaders = await getResultsFromFirebase(quizId);
+                
+                console.log('📈 Обработка результатов:', leaders);
+                
+                if (leaders.length === 0) {
+                    container.innerHTML = `
+                        <div class="leader-item" style="text-align: center; justify-content: center;">
+                            <div class="leader-stat">😔 Пока нет результатов</div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const topLeaders = leaders.slice(0, 10);
+                
+                let html = '';
+                topLeaders.forEach((leader, index) => {
+                    const rankClass = index < 3 ? `top-${index + 1}` : '';
+                    
+                    let dateString = 'Нет данных';
+                    if (leader.timestamp) {
+                        const date = leader.timestamp.toDate ? leader.timestamp.toDate() : new Date(leader.timestamp);
+                        const day = date.getDate().toString().padStart(2, '0');
+                        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                        const year = date.getFullYear();
+                        dateString = `${day}.${month}.${year}`;
+                    }
+                    
+                    html += `
+                        <div class="leader-item ${rankClass}">
+                            <div class="leader-rank">${index + 1}</div>
+                            <div class="leader-info">
+                                <div class="leader-name">${leader.playerName}</div>
+                                <div class="leader-stats">
+                                    <div class="leader-score">${leader.score}/26 баллов</div>
+                                    <div class="leader-stat">
+                                        <span class="leader-stat-icon">⏱️</span>
+                                        <span class="leader-time">${formatTime(leader.time)}</span>
+                                    </div>
+                                    <div class="leader-stat">
+                                        <span class="leader-stat-icon">📅</span>
+                                        <span class="leader-date">${dateString}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+                console.log('✅ Таблица лидеров успешно обновлена');
+                
+            } catch (error) {
+                console.error('❌ Ошибка загрузки таблицы лидеров:', error);
+                container.innerHTML = `
+                    <div class="leader-item" style="text-align: center; justify-content: center;">
+                        <div class="leader-stat">❌ Ошибка загрузки</div>
+                    </div>
+                `;
+            }
+        }
+
+        function showPasswordModal() {
+            document.getElementById('password-modal').style.display = 'block';
+            document.getElementById('admin-password').value = '';
+            document.getElementById('admin-password').focus();
+        }
+
+        function hidePasswordModal() {
+            document.getElementById('password-modal').style.display = 'none';
+            document.getElementById('admin-password').value = '';
+        }
+
+        function showConfirmClearModal() {
+            document.getElementById('confirm-clear-modal').style.display = 'block';
+        }
+
+        function hideConfirmClearModal() {
+            document.getElementById('confirm-clear-modal').style.display = 'none';
+        }
+
+        function checkAdminPassword() {
+            const password = document.getElementById('admin-password').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                hidePasswordModal();
+                showConfirmClearModal();
+            } else {
+                alert('❌ Неверный пароль!');
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-password').focus();
+            }
+        }
+
+async function clearAllResults() {
+    try {
+        console.log('🔄 Начало очистки всех результатов...');
+        
+        const snapshot = await db.collection('quizResults').get();
+        const batch = db.batch();
+        
+        snapshot.forEach(doc => {
+            batch.delete(doc.ref);
+        });
+        
+        await batch.commit();
+        
+        localStorage.removeItem('quizLeaders');
+        
+        console.log('✅ Все результаты успешно очищены');
+        hideConfirmClearModal();
+        
+        alert('✅ Все результаты рейтинга были успешно очищены!');
+        
+        if (document.getElementById('leaderboard-screen').classList.contains('active')) {
+            const currentQuiz = document.getElementById('quiz-title').textContent;
+            if (currentQuiz.includes('14')) {
+                loadLeadersForQuiz('paragraph_14');
+            } else if (currentQuiz.includes('15')) {
+                loadLeadersForQuiz('paragraph_15');
+            } else if (currentQuiz.includes('16')) {
+                loadLeadersForQuiz('paragraph_16');
+            } else if (currentQuiz.includes('17')) {
+                loadLeadersForQuiz('paragraph_17');
+            } else if (currentQuiz.includes('18')) {
+                loadLeadersForQuiz('paragraph_18');
+            } else if (currentQuiz.includes('19')) {
+                loadLeadersForQuiz('paragraph_19');
+            }
+        } else {
+            location.reload();
+        }
+        
+    } catch (error) {
+        console.error('❌ Ошибка очистки Firebase:', error);
+        alert('❌ Ошибка при очистке данных: ' + error.message);
+    }
+}
+
+        function showClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'block';
+        }
+
+        function closeClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'none';
+        }
+
+        function selectClass(className) {
+            document.getElementById('selected-class').textContent = className;
+            closeClassSelector();
+            showWheelModal();
+        }
+
+        function showWheelModal() {
+            const selectedClass = document.getElementById('selected-class').textContent;
+            document.getElementById('wheel-modal').style.display = 'block';
+            setTimeout(() => {
+                if (typeof initWheel === 'function') {
+                    initWheel(selectedClass);
+                }
+            }, 300);
+        }
+
+        function closeWheelModal() {
+            document.getElementById('wheel-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const classModal = document.getElementById('class-selector-modal');
+            const wheelModal = document.getElementById('wheel-modal');
+            const passwordModal = document.getElementById('password-modal');
+            const confirmModal = document.getElementById('confirm-clear-modal');
+            
+            if (event.target === classModal) {
+                closeClassSelector();
+            }
+            if (event.target === wheelModal) {
+                closeWheelModal();
+            }
+            if (event.target === passwordModal) {
+                hidePasswordModal();
+            }
+            if (event.target === confirmModal) {
+                hideConfirmClearModal();
+            }
+        }
+
+        document.getElementById('admin-password')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAdminPassword();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Страница таблицы лидеров загружена');
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const quizId = urlParams.get('quiz');
+            
+            if (quizId && quizDatabase[quizId]) {
+                console.log('📖 Автоматический переход к викторине:', quizId);
+                showLeaderboard(quizId);
+            } else {
+                console.log('ℹ️ Режим выбора викторины');
+            }
+
+            console.log('🔍 Проверка подключения к Firebase...');
+            db.collection('quizResults').get().then(snapshot => {
+                console.log(`📊 Всего результатов в базе: ${snapshot.size}`);
+            }).catch(error => {
+                console.error('❌ Ошибка подключения к Firebase:', error);
+            });
+            
+            function createParticles() {
+                const container = document.getElementById('particles');
+                const particleCount = 30;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    const size = Math.random() * 4 + 1;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const duration = Math.random() * 20 + 10;
+                    const delay = Math.random() * 5;
+                    
+                    particle.style.cssText = `
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${posX}%;
+                        top: ${posY}%;
+                        animation-duration: ${duration}s;
+                        animation-delay: ${delay}s;
+                        opacity: ${Math.random() * 0.3 + 0.1};
+                    `;
+                    
+                    container.appendChild(particle);
+                }
+            }
+            
+            createParticles();
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p2.js/0.6.0/p2.min.js"></script>
+    <script src="wheel.js"></script>
+</body>
+</html>

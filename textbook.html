@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Электронный учебник - Викторины</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="textbook-style.css">
+</head>
+<body>
+    <div class="animated-background">
+        <div class="particles-container" id="particles"></div>
+        <div class="floating-elements">
+            <div class="floating-element el-1">🏛</div>
+            <div class="floating-element el-2">⚔️</div>
+            <div class="floating-element el-3">👑</div>
+            <div class="floating-element el-4">📜</div>
+            <div class="floating-element el-5">🏆</div>
+        </div>
+        <div class="gradient-overlay"></div>
+        <div class="light-beam beam-1"></div>
+        <div class="light-beam beam-2"></div>
+        <div class="light-beam beam-3"></div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="window.location.href='index.html'">
+                <div class="logo-icon">📜</div>
+                <div class="logo-text">
+                    <h1>Электронный учебник</h1>
+                    <p>11 класс - История и Обществоведение</p>
+                </div>
+            </div>
+            
+            <div class="header-buttons">
+                <div class="textbook-btn active">
+                    <div class="textbook-icon">📚</div>
+                </div>
+                <div class="class-wheel-btn" onclick="showClassSelector()">
+                    <div class="wheel-icon">🎡</div>
+                </div>
+            </div>
+
+            <nav class="luxury-nav">
+                <a href="index.html" class="nav-item">Главная</a>
+                <a href="quiz.html" class="nav-item">Викторины</a>
+                <a href="leaders.html" class="nav-item">Таблица лидеров</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="textbook-container">
+        <div class="textbook-sidebar">
+            <div class="textbook-search">
+                <input type="text" id="textbook-search" placeholder="🔍 Поиск по учебнику...">
+            </div>
+            
+            <div class="chapters-list" id="chapters-list">
+            </div>
+        </div>
+
+        <div class="textbook-content">
+            <div class="pdf-viewer-container">
+                <div class="pdf-controls">
+                    <button class="pdf-btn" id="prev-page">
+                        <span>⬅️</span>
+                        <span>Назад</span>
+                    </button>
+                    
+                    <span class="page-info">
+                        Страница: <span id="page-num">1</span> / <span id="page-count">-</span>
+                    </span>
+                    
+                    <button class="pdf-btn" id="next-page">
+                        <span>➡️</span>
+                        <span>Вперед</span>
+                    </button>
+                    
+                    <button class="pdf-btn" id="zoom-out">
+                        <span>🔍</span>
+                        <span>-</span>
+                    </button>
+                    
+                    <button class="pdf-btn" id="zoom-in">
+                        <span>🔍</span>
+                        <span>+</span>
+                    </button>
+                    
+                    <button class="pdf-btn" id="fit-width">
+                        <span>📏</span>
+                        <span>По ширине</span>
+                    </button>
+                    
+                    <button class="pdf-btn fullscreen-toggle" id="fullscreen-toggle">
+                        <span>⛶</span>
+                        <span>Полный экран</span>
+                    </button>
+                </div>
+                
+                <div class="pdf-viewer">
+                    <canvas id="pdf-canvas"></canvas>
+                </div>
+                
+                <div class="pdf-loading" id="pdf-loading">
+                    <div class="loading-spinner"></div>
+                    <p>Загрузка учебника...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">📚</div>
+                    <div class="footer-brand-text">
+                        <h3>Электронный учебник</h3>
+                        <p>История и Обществоведение - 11 класс</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Навигация</h4>
+                        <a href="index.html">Главная</a>
+                        <a href="quiz.html">Викторины</a>
+                        <a href="leaders.html">Таблица лидеров</a>
+                        <a href="textbook.html">Учебник</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Разделы</h4>
+                        <a href="textbook.html#chapter1">Культура Беларуси</a>
+                        <a href="textbook.html#chapter2">Первая мировая война</a>
+                        <a href="textbook.html#chapter3">Беларусь в ПМВ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p>&copy; 2025 Электронный учебник. Все права защищены.</p>
+                    <p>Проект для учащихся 11 классов. Разработано Владом и Сашей.</p>
+                </div>
+                <div class="footer-badge">
+                    <span>📚</span>
+                    <span>Учитесь с удовольствием</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="class-selector-modal" class="modal">
+    </div>
+
+    <div id="wheel-modal" class="modal">
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+    </script>
+    
+    <script src="textbook.js"></script>
+    <script src="wheel.js"></script>
+</body>
+</html>

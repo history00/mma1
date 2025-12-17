@@ -1,0 +1,304 @@
+.wheel-modal-content {
+    max-width: 95vw;
+    max-height: 95vh;
+    width: 1200px;
+    height: 900px;
+    margin: 1% auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.wheel-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(45, 27, 27, 0.95), rgba(26, 26, 26, 0.98));
+    border-radius: 0 0 18px 18px;
+    position: relative;
+    overflow: hidden;
+}
+
+.wheel-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold-accent), var(--bronze));
+}
+
+#wheel-wrapper {
+    position: relative;
+    width: 800px;
+    height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#wheel-canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 0 8px rgba(212, 175, 55, 0.3),
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        inset 0 0 30px rgba(212, 175, 55, 0.1);
+    background: radial-gradient(circle at center, #2d1b1b 0%, #1a1a1a 100%);
+}
+
+#wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--gold-accent), var(--bronze));
+    border-radius: 50%;
+    border: 4px solid #8B4513;
+    box-shadow: 
+        0 0 0 8px rgba(139, 69, 19, 0.3),
+        0 0 30px rgba(212, 175, 55, 0.5);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#wheel-center:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 
+        0 0 0 10px rgba(139, 69, 19, 0.4),
+        0 0 40px rgba(212, 175, 55, 0.6);
+}
+
+#spin-button {
+    background: none;
+    border: none;
+    color: var(--deep-charcoal);
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    text-align: center;
+    cursor: pointer;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#wheel-arrow {
+    display: none;
+}
+
+.winner-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+}
+
+.winner-display.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.winner-content {
+    background: linear-gradient(135deg, #1a1a1a, #2d1b1b);
+    padding: 3rem 4rem;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 
+        0 25px 80px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(212, 175, 55, 0.3),
+        0 0 50px rgba(212, 175, 55, 0.2);
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    min-width: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+.winner-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold-accent), var(--bronze));
+}
+
+.winner-content.winner {
+    background: linear-gradient(135deg, #2d1b1b, #1a1a1a);
+    border-color: var(--gold-accent);
+    animation: winnerGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes winnerGlow {
+    0% {
+        box-shadow: 
+            0 25px 80px rgba(0, 0, 0, 0.8),
+            0 0 0 1px rgba(212, 175, 55, 0.4),
+            0 0 50px rgba(212, 175, 55, 0.3);
+    }
+    100% {
+        box-shadow: 
+            0 25px 80px rgba(0, 0, 0, 0.8),
+            0 0 0 1px rgba(212, 175, 55, 0.6),
+            0 0 80px rgba(212, 175, 55, 0.5);
+    }
+}
+
+.winner-crown {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    display: block;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    40% {
+        transform: translateY(-10px) scale(1.1);
+    }
+    60% {
+        transform: translateY(-5px) scale(1.05);
+    }
+}
+
+.winner-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--gold-accent);
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.winner-name {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--cream-white);
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, var(--gold-accent), var(--cream-white));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+
+.winner-message {
+    font-size: 1.2rem;
+    color: rgba(245, 245, 245, 0.9);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.winner-timer {
+    font-size: 0.9rem;
+    color: rgba(245, 245, 245, 0.7);
+    background: rgba(212, 175, 55, 0.1);
+    padding: 0.8rem 1.5rem;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.timer-count {
+    color: var(--gold-accent);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+    .wheel-modal-content {
+        width: 95vw;
+        height: 85vh;
+    }
+    
+    #wheel-wrapper {
+        width: 700px;
+        height: 700px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wheel-modal-content {
+        width: 98vw;
+        height: 80vh;
+        margin: 2% auto;
+    }
+    
+    #wheel-wrapper {
+        width: 90vmin;
+        height: 90vmin;
+        max-width: 500px;
+        max-height: 500px;
+    }
+    
+    #wheel-center {
+        width: 100px;
+        height: 100px;
+    }
+    
+    #spin-button {
+        font-size: 1.1rem;
+    }
+    
+    .winner-content {
+        min-width: 320px;
+        padding: 2rem;
+        margin: 1rem;
+    }
+    
+    .winner-name {
+        font-size: 2.2rem;
+    }
+    
+    .winner-title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #wheel-wrapper {
+        width: 85vmin;
+        height: 85vmin;
+    }
+    
+    #wheel-center {
+        width: 80px;
+        height: 80px;
+    }
+    
+    #spin-button {
+        font-size: 1rem;
+    }
+    
+    .winner-content {
+        min-width: 280px;
+        padding: 1.5rem;
+    }
+    
+    .winner-name {
+        font-size: 1.8rem;
+    }
+}

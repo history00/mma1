@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Викторины</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="quiz-style.css">
+    <link rel="stylesheet" href="wheel.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <div class="animated-background">
+        <div class="particles-container" id="particles"></div>
+        <div class="floating-elements">
+            <div class="floating-element el-1">🏛</div>
+            <div class="floating-element el-2">⚔️</div>
+            <div class="floating-element el-3">👑</div>
+            <div class="floating-element el-4">📜</div>
+            <div class="floating-element el-5">🏆</div>
+        </div>
+        <div class="gradient-overlay"></div>
+        <div class="light-beam beam-1"></div>
+        <div class="light-beam beam-2"></div>
+        <div class="light-beam beam-3"></div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="window.location.href='index.html'">
+                <div class="logo-icon">📜</div>
+                <div class="logo-text">
+                    <h1>Викторины</h1>
+                    <p>11 класс - История</p>
+                </div>
+            </div>
+            
+<div class="header-buttons">
+    <div class="textbook-btn" onclick="window.location.href='textbook.html'">
+        <div class="textbook-icon">📚</div>
+    </div>
+    <div class="class-wheel-btn" onclick="showClassSelector()">
+        <div class="wheel-icon">🎡</div>
+    </div>
+</div>
+
+            <nav class="luxury-nav">
+                <a href="index.html" class="nav-item">Главная</a>
+                <a href="quiz.html" class="nav-item active">Викторины</a>
+                <a href="leaders.html" class="nav-item">Таблица лидеров</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="quiz-container">
+        <div id="quiz-selection" class="screen active">
+            <div class="quiz-selection-header">
+                <h2>Выберите тему для викторины</h2>
+            </div>
+
+            <div class="quiz-grid">
+                <div class="quiz-card" onclick="startQuiz('paragraph_14')">
+                    <div class="quiz-image">
+                        <img src="images/quiz_covers/culture_cover.jpg" alt="Культура Беларуси" class="quiz-cover-image">
+                    </div>
+                    <div class="quiz-content">
+                        <h3 class="quiz-title">§ 14. Развитие культуры Беларуси в XIX — начале ХХ в.</h3>
+                    </div>
+                </div>
+
+                <div class="quiz-card" onclick="startQuiz('paragraph_15')">
+                    <div class="quiz-image">
+                        <img src="images/quiz_covers/medieval_cover.jpg" alt="Первая мировая война" class="quiz-cover-image">
+                    </div>
+                    <div class="quiz-content">
+                        <h3 class="quiz-title">§ 15. Первая мировая война как рубежный период мировой истории</h3>
+                    </div>
+                </div>
+
+                <div class="quiz-card" onclick="startQuiz('paragraph_16')">
+                    <div class="quiz-image">
+                        <img src="images/quiz_covers/empire_cover.jpg" alt="Беларусь в ПМВ" class="quiz-cover-image">
+                    </div>
+                    <div class="quiz-content">
+                        <h3 class="quiz-title">§ 16. Беларусь в годы Первой мировой войны</h3>
+                    </div>
+                </div>
+                                <div class="quiz-card" onclick="startQuiz('paragraph_17')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph17_cover.jpg" alt="Мир в межвоенный период" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 17. Мир в межвоенный период</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="showLeaderboard('paragraph_18')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/revolution_cover.jpg" alt="Установление советской власти" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 18. Установление советской власти в Беларуси</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="startQuiz('paragraph_19')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph19_cover.jpg" alt="Страны Европы и США" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 19. Страны Европы и США в 1920-1930-е годы</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="startQuiz('paragraph_20')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph20_cover.jpg" alt="Деколонизация" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 20. Национально-освободительные движения и деколонизация</h3>
+    </div>
+</div>
+
+<div class="quiz-card" onclick="startQuiz('paragraph_21')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph21_cover.jpg" alt="СССР 1917-1939" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 21. Советская Россия и СССР в 1917-1939 гг.</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="startQuiz('paragraph_22')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph22_cover.jpg" alt="Белорусская государственность" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 22. Становление белорусской государственности</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="startQuiz('paragraph_23')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph23_cover.jpg" alt="Социально-экономическое развитие БССР" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 23. Социально-экономическое и общественно-политическое развитие БССР в 1920-1930-е годы</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="startQuiz('paragraph_24')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph24_cover.jpg" alt="Западная Беларусь в составе Польши" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 24. Западная Беларусь в составе Польши (1921-1939 гг.)</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="startQuiz('paragraph_25')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph25_cover.jpg" alt="Развитие культуры 1920-30-е" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 25. Развитие культуры в 1920-1930-е годы</h3>
+    </div>
+</div>
+<div class="quiz-card" onclick="startQuiz('paragraph_26')">
+    <div class="quiz-image">
+        <img src="images/quiz_covers/paragraph26_cover.jpg" alt="Международные отношения 1930-е" class="quiz-cover-image">
+    </div>
+    <div class="quiz-content">
+        <h3 class="quiz-title">§ 26. Международные отношения в 1930-е годы и начало Второй мировой войны</h3>
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-screen">
+                <div class="quiz-header">
+                    <div class="quiz-progress-section">
+                        <div class="quiz-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <span id="progress-text">Вопрос 1/26</span>
+                        </div>
+                    </div>
+<div class="quiz-timer" id="quiz-timer">
+    <span></span>
+    <span id="timer">0 сек</span>
+</div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question-content">
+                        <div class="question-image" id="question-image"></div>
+                        <div class="question-text-section">
+                            <h2 class="question-text" id="question-text"></h2>
+                            <div class="answers-grid" id="answers-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-feedback" id="quiz-feedback"></div>
+                <div class="answer-explanation" id="answer-explanation"></div>
+
+                <div class="quiz-navigation">
+                    <div class="nav-left">
+                        <button class="luxury-btn btn-secondary btn-square" onclick="restartQuiz()" title="Начать заново">
+                            <span>↺</span>
+                        </button>
+                        <button class="luxury-btn btn-secondary btn-square" id="sound-toggle" onclick="toggleSound()" title="Звук">
+                            <span id="sound-icon">🔊</span>
+                        </button>
+                    </div>
+                    <button class="luxury-btn btn-primary next-btn-with-arrow" id="next-btn" onclick="nextQuestion()" style="display: none;">
+                        <span id="next-btn-text">Следующий вопрос</span>
+                    </button>
+                    <div class="nav-right">
+                        <button class="luxury-btn btn-secondary btn-square" id="fullscreen-toggle" onclick="toggleFullscreen()" title="Полный экран">
+                            <span id="fullscreen-icon">⛶</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="results-screen" class="screen">
+            <div class="quiz-screen">
+                <div class="results-header">
+                    <div class="results-badge">
+                        <div class="badge-icon">🎉</div>
+                        <div class="badge-text">Викторина завершена!</div>
+                    </div>
+                    <h2>Потрясающий результат!</h2>
+                </div>
+                
+                <div class="results-stats">
+                    <div class="result-stat">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="correct-answers">0/26</div>
+                            <div class="stat-label">Правильных ответов</div>
+                        </div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="time-spent">0 сек</div>
+                            <div class="stat-label">Затраченное время</div>
+                        </div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-score">0</div>
+                            <div class="stat-label">Набрано баллов</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nickname-selection-section">
+                    <h3>Введите ваш ник для таблицы лидеров</h3>
+                    <input type="text" id="player-nickname" class="nickname-input" placeholder="Ваш ник" maxlength="20">
+                    <div class="results-actions">
+                        <button class="luxury-btn btn-secondary" onclick="restartQuiz()">
+                            <span>Пройти ещё раз</span>
+                        </button>
+                        <button class="luxury-btn btn-primary" onclick="saveResults()">
+                            <span>Сохранить в рейтинг</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">📜</div>
+                    <div class="footer-brand-text">
+                        <h3>Викторины</h3>
+                        <p>Для связи - скоро..</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Навигация</h4>
+                        <a href="index.html">Главная</a>
+                        <a href="quiz.html">Викторины</a>
+                        <a href="leaders.html">Таблица лидеров</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Темы</h4>
+                        <a href="quiz.html">Культура Беларуси</a>
+                        <a href="quiz.html">Средневековье</a>
+                        <a href="quiz.html">Российская Империя</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p>&copy; 2025 Викторины. Все права защищены.</p>
+                    <p>Проект для учащихся 11 классов</p>
+                </div>
+                <div class="footer-badge">
+                    <span>🏆</span>
+                    <span>Учитесь с достоинством</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="class-selector-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Выберите ваш класс</h3>
+                <span class="close-modal" onclick="closeClassSelector()">&times;</span>
+            </div>
+            <div class="class-selector">
+                <div class="class-option" data-class="А" onclick="selectClass('А')">
+                    <div class="class-card">
+                        <div class="class-icon">🔬</div>
+                        <div class="class-info">
+                            <div class="class-name">11А</div>
+                            <div class="class-label">Физмат</div>
+                        </div>
+                        <div class="class-check">
+                            <div class="check-circle"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="class-option" data-class="Б" onclick="selectClass('Б')">
+                    <div class="class-card">
+                        <div class="class-icon">💼</div>
+                        <div class="class-info">
+                            <div class="class-name">11Б</div>
+                            <div class="class-label">Эконом</div>
+                        </div>
+                        <div class="class-check">
+                            <div class="check-circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div id="wheel-modal" class="modal">
+    <div class="modal-content wheel-modal-content">
+        <div class="modal-header">
+            <h3>🎡 Колесо активностей - 11<span id="selected-class">А</span></h3>
+            <span class="close-modal" onclick="closeWheelModal()">&times;</span>
+        </div>
+        <div class="wheel-container">
+            <div id="wheel-wrapper">
+                <canvas id="wheel-canvas"></canvas>
+                <div id="wheel-arrow"></div>
+                <div id="wheel-center">
+                    <button id="spin-button">КРУТИТЬ</button>
+                </div>
+                <div id="wheel-status"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <audio id="correct-sound" preload="auto">
+        <source src="sounds/correct.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrong-sound" preload="auto">
+        <source src="sounds/wrong.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${posX}%;
+                    top: ${posY}%;
+                    animation-duration: ${duration}s;
+                    animation-delay: ${delay}s;
+                    opacity: ${Math.random() * 0.3 + 0.1};
+                `;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        function showClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'block';
+        }
+
+        function closeClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'none';
+        }
+
+        function selectClass(className) {
+            document.getElementById('selected-class').textContent = className;
+            closeClassSelector();
+            showWheelModal();
+        }
+
+function showWheelModal() {
+    const selectedClass = document.getElementById('selected-class').textContent;
+    document.getElementById('wheel-modal').style.display = 'block';
+    setTimeout(() => {
+        if (typeof initWheel === 'function') {
+            initWheel(selectedClass);
+        }
+    }, 300);
+}
+
+        function closeWheelModal() {
+            document.getElementById('wheel-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const classModal = document.getElementById('class-selector-modal');
+            const wheelModal = document.getElementById('wheel-modal');
+            
+            if (event.target === classModal) {
+                closeClassSelector();
+            }
+            if (event.target === wheelModal) {
+                closeWheelModal();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+    </script>
+
+    <script src="quiz.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p2.js/0.6.0/p2.min.js"></script>
+    <script src="wheel.js"></script>
+</body>
+</html>
