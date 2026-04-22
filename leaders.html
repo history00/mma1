@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблица лидеров</title>
+    <title>Таблица лидеров - Викторины</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="wheel.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="animated-background">
@@ -48,7 +47,6 @@
                 <a href="quiz.html" class="nav-item">Викторины</a>
                 <a href="leaders.html" class="nav-item active">Таблица лидеров</a>
                 <a href="textbook.html" class="nav-item">Учебник</a>
-                <a href="admin.html" class="nav-item">Админ</a>
             </nav>
         </div>
     </header>
@@ -80,12 +78,6 @@
                         <!-- Лидеры загружаются здесь -->
                     </div>
                 </div>
-
-                <div class="admin-panel">
-                    <button class="luxury-btn btn-secondary btn-compact" onclick="showPasswordModal()">
-                        🛠 Администрирование
-                    </button>
-                </div>
             </div>
         </div>
     </main>
@@ -108,36 +100,6 @@
             </div>
         </div>
     </footer>
-
-    <div id="password-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Введите пароль администратора</h3>
-                <span class="close-modal" onclick="hidePasswordModal()">×</span>
-            </div>
-            <div class="modal-body" style="padding: 2rem;">
-                <input type="password" id="admin-password" class="nickname-input" placeholder="Пароль" style="width:100%; margin-bottom:1rem;">
-                <div style="text-align:center;">
-                    <button class="luxury-btn btn-secondary" onclick="hidePasswordModal()">Отмена</button>
-                    <button class="luxury-btn btn-primary" onclick="checkAdminPassword()">Войти</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="confirm-clear-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Подтверждение</h3>
-                <span class="close-modal" onclick="hideConfirmClearModal()">×</span>
-            </div>
-            <div class="modal-body" style="padding:2rem; text-align:center;">
-                <p style="margin-bottom:2rem; color:#ff6b6b;">⚠️ Удалить ВСЕ результаты? Это необратимо!</p>
-                <button class="luxury-btn btn-secondary" onclick="hideConfirmClearModal()">Отмена</button>
-                <button class="luxury-btn btn-primary" onclick="clearAllResults()">Да, удалить</button>
-            </div>
-        </div>
-    </div>
 
     <div id="class-selector-modal" class="modal">
         <div class="modal-content">
@@ -185,99 +147,76 @@
         </div>
     </div>
 
-    <script src="config.js"></script>
-    <script src="wheel.js"></script>
     <script>
-        let sb;
-        const ADMIN_PASSWORD = "22072024";
+        const quizDatabase = {
+            paragraph_1: { title: "§ 1. XIX век в истории мира и Беларуси" },
+            paragraph_2: { title: "§ 2. Промышленная революция" },
+            paragraph_3: { title: "§ 3. Революции и национальные движения в мире" },
+            paragraph_4: { title: "§ 4. Особенности развития стран Запада и Востока" }
+        };
 
-        async function loadQuizCardsForLeaders() {
+        function loadQuizCardsForLeaders() {
             const grid = document.getElementById('leaders-quiz-grid');
-            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;">Загрузка...</div>';
+            grid.innerHTML = '';
 
-            try {
-                const { data, error } = await sb
-                    .from('quizzes')
-                    .select('*')
-                    .eq('hidden', false)
-                    .order('ord', { ascending: true });
-
-                if (error) throw error;
-
-                grid.innerHTML = '';
-
-                data.forEach(quiz => {
-                    const card = document.createElement('div');
-                    card.className = 'quiz-card';
-                    card.style.height = '380px';
-                    card.innerHTML = `
-                        <div class="quiz-image">
-                            <img src="${quiz.img || 'images/default.jpg'}" class="quiz-cover-image">
-                        </div>
-                        <div class="quiz-content">
-                            <h3 class="quiz-title">${quiz.title}</h3>
-                        </div>
-                    `;
-                    card.onclick = () => showLeaderboard(quiz.id, quiz.title);
-                    grid.appendChild(card);
-                });
-
-            } catch (e) {
-                console.error(e);
-                grid.innerHTML = '<div style="grid-column:1/-1;color:#ff6b6b;">Ошибка загрузки</div>';
-            }
+            Object.entries(quizDatabase).forEach(([key, quiz]) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.style.height = '380px';
+                card.innerHTML = `
+                    <div class="quiz-image">
+                        <div style="width:100%; height:100%; background: linear-gradient(135deg, #d4af37, #cd7f32); display: flex; align-items: center; justify-content: center; font-size: 3rem;">📖</div>
+                    </div>
+                    <div class="quiz-content">
+                        <h3 class="quiz-title">${quiz.title}</h3>
+                    </div>
+                `;
+                card.onclick = () => showLeaderboard(key, quiz.title);
+                grid.appendChild(card);
+            });
         }
 
-        async function showLeaderboard(quizId, quizTitle) {
+        function showLeaderboard(quizId, quizTitle) {
             document.getElementById('quiz-selection-screen').classList.remove('active');
             document.getElementById('leaderboard-screen').classList.add('active');
             document.getElementById('quiz-title').textContent = quizTitle;
 
             const container = document.getElementById('leaders-list');
-            container.innerHTML = '<div style="text-align:center;padding:3rem;">Загрузка лидеров...</div>';
+            container.innerHTML = '';
 
-            try {
-                const { data, error } = await sb
-                    .from('results')
-                    .select('*')
-                    .eq('quiz_id', quizId)
-                    .order('score', { ascending: false })
-                    .order('time_sec', { ascending: true });
+            const leaders = JSON.parse(localStorage.getItem('quizLeaders') || '[]');
+            const quizLeaders = leaders.filter(l => l.quizId === quizId)
+                .sort((a, b) => {
+                    if (b.score !== a.score) return b.score - a.score;
+                    return a.timeSec - b.timeSec;
+                })
+                .slice(0, 50);
 
-                if (error) throw error;
+            if (quizLeaders.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:3rem;color:#aaa;">Пока нет результатов</div>';
+                return;
+            }
 
-                if (data.length === 0) {
-                    container.innerHTML = '<div style="text-align:center;padding:3rem;color:#aaa;">Пока нет результатов</div>';
-                    return;
-                }
+            let html = '';
+            quizLeaders.forEach((result, index) => {
+                const rankClass = index === 0 ? 'top-1' : index === 1 ? 'top-2' : index === 2 ? 'top-3' : '';
 
-                let html = '';
-                data.forEach((result, index) => {
-                    const rankClass = index === 0 ? 'top-1' : index === 1 ? 'top-2' : index === 2 ? 'top-3' : '';
-                    const date = new Date(result.created_at).toLocaleDateString('ru-RU');
-                    const time = formatLeaderTime(result.time_sec);
-
-                    html += `
-                        <div class="leader-item ${rankClass}">
-                            <div class="leader-rank">${index + 1}</div>
-                            <div class="leader-info">
-                                <div class="leader-name">${result.player_name}</div>
-                                <div class="leader-stats">
-                                    <div class="leader-score">${result.score}/${result.total}</div>
-                                    <div class="leader-time">${time}</div>
-                                    <div class="leader-date">${date}</div>
-                                </div>
+                html += `
+                    <div class="leader-item ${rankClass}">
+                        <div class="leader-rank">${index + 1}</div>
+                        <div class="leader-info">
+                            <div class="leader-name">${result.playerName}</div>
+                            <div class="leader-stats">
+                                <div class="leader-score">${result.score}/${result.total}</div>
+                                <div class="leader-time">${formatLeaderTime(result.timeSec)}</div>
+                                <div class="leader-date">${result.date}</div>
                             </div>
                         </div>
-                    `;
-                });
+                    </div>
+                `;
+            });
 
-                container.innerHTML = html;
-
-            } catch (e) {
-                console.error(e);
-                container.innerHTML = '<div style="color:#ff6b6b;text-align:center;">Ошибка загрузки</div>';
-            }
+            container.innerHTML = html;
         }
 
         function formatLeaderTime(seconds) {
@@ -290,50 +229,6 @@
         function showQuizSelection() {
             document.getElementById('leaderboard-screen').classList.remove('active');
             document.getElementById('quiz-selection-screen').classList.add('active');
-        }
-
-        function showPasswordModal() {
-            document.getElementById('password-modal').style.display = 'block';
-            document.getElementById('admin-password').focus();
-        }
-
-        function hidePasswordModal() {
-            document.getElementById('password-modal').style.display = 'none';
-        }
-
-        function checkAdminPassword() {
-            const pass = document.getElementById('admin-password').value;
-            if (pass === ADMIN_PASSWORD) {
-                hidePasswordModal();
-                showConfirmClearModal();
-            } else {
-                alert('❌ Неверный пароль!');
-                document.getElementById('admin-password').value = '';
-            }
-        }
-
-        function showConfirmClearModal() {
-            document.getElementById('confirm-clear-modal').style.display = 'block';
-        }
-
-        function hideConfirmClearModal() {
-            document.getElementById('confirm-clear-modal').style.display = 'none';
-        }
-
-        async function clearAllResults() {
-            try {
-                const { error } = await sb.from('results').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-                
-                if (error) throw error;
-
-                alert('✅ Все результаты удалены!');
-                hideConfirmClearModal();
-                location.reload();
-
-            } catch (e) {
-                console.error(e);
-                alert('❌ Ошибка удаления');
-            }
         }
 
         function showClassSelector() {
@@ -353,7 +248,9 @@
         function showWheelModal() {
             document.getElementById('wheel-modal').style.display = 'block';
             setTimeout(() => {
-                if (typeof initWheel === 'function') initWheel(document.getElementById('selected-class').textContent);
+                if (typeof initWheel === 'function') {
+                    initWheel(document.getElementById('selected-class').textContent);
+                }
             }, 300);
         }
 
@@ -364,19 +261,45 @@
         window.onclick = function(event) {
             const classModal = document.getElementById('class-selector-modal');
             const wheelModal = document.getElementById('wheel-modal');
-            const passModal = document.getElementById('password-modal');
-            const confModal = document.getElementById('confirm-clear-modal');
             
             if (event.target === classModal) closeClassSelector();
             if (event.target === wheelModal) closeWheelModal();
-            if (event.target === passModal) hidePasswordModal();
-            if (event.target === confModal) hideConfirmClearModal();
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            await loadQuizCardsForLeaders();
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${posX}%;
+                    top: ${posY}%;
+                    animation-duration: ${duration}s;
+                    animation-delay: ${delay}s;
+                    opacity: ${Math.random() * 0.3 + 0.1};
+                `;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadQuizCardsForLeaders();
+            createParticles();
         });
     </script>
+
+    <script src="wheel.js"></script>
 </body>
 </html>
