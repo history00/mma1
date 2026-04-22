@@ -61,13 +61,11 @@
                 <p>Проверь свои знания и заработай активность</p>
             </div>
 
-            <!-- ВСЁ В ОДНОЙ СЕТКЕ - ОДИНАКОВЫЙ РАЗМЕР -->
             <div class="quiz-grid" id="quiz-grid">
-                <!-- Карточки будут загружаться динамически из Supabase -->
+                <!-- Карточки загружаются динамически -->
             </div>
         </div>
 
-        <!-- Экран викторины -->
         <div id="quiz-screen" class="screen">
             <div class="quiz-screen">
                 <div class="quiz-header">
@@ -113,7 +111,6 @@
             </div>
         </div>
 
-        <!-- Экран результатов -->
         <div id="results-screen" class="screen">
             <div class="quiz-screen">
                 <div class="results-header">
@@ -179,13 +176,58 @@
         </div>
     </footer>
 
-    <!-- Модальные окна -->
-    <div id="class-selector-modal" class="modal"> ... </div>
-    <div id="wheel-modal" class="modal"> ... </div>
+    <div id="class-selector-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Выберите ваш класс</h3>
+                <span class="close-modal" onclick="closeClassSelector()">×</span>
+            </div>
+            <div class="class-selector">
+                <div class="class-option" onclick="selectClass('А')">
+                    <div class="class-card">
+                        <div class="class-icon">🔬</div>
+                        <div class="class-info">
+                            <div class="class-name">11А</div>
+                            <div class="class-label">Физмат</div>
+                        </div>
+                        <div class="class-check"></div>
+                    </div>
+                </div>
+                <div class="class-option" onclick="selectClass('Б')">
+                    <div class="class-card">
+                        <div class="class-icon">💼</div>
+                        <div class="class-info">
+                            <div class="class-name">11Б</div>
+                            <div class="class-label">Эконом</div>
+                        </div>
+                        <div class="class-check"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="wheel-modal" class="modal">
+        <div class="modal-content wheel-modal-content">
+            <div class="modal-header">
+                <h3>🎡 Колесо активностей - 11<span id="selected-class">А</span></h3>
+                <span class="close-modal" onclick="closeWheelModal()">×</span>
+            </div>
+            <div class="wheel-container">
+                <div id="wheel-wrapper">
+                    <canvas id="wheel-canvas"></canvas>
+                    <div id="wheel-center">
+                        <button id="spin-button">КРУТИТЬ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <audio id="correct-sound" preload="auto"><source src="sounds/correct.mp3" type="audio/mpeg"></audio>
     <audio id="wrong-sound" preload="auto"><source src="sounds/wrong.mp3" type="audio/mpeg"></audio>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <script src="quiz.js"></script>
     <script src="wheel.js"></script>
