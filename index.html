@@ -33,19 +33,21 @@
                 </div>
             </div>
             
-<div class="header-buttons">
-    <div class="textbook-btn" onclick="window.location.href='textbook.html'">
-        <div class="textbook-icon">📚</div>
-    </div>
-    <div class="class-wheel-btn" onclick="showClassSelector()">
-        <div class="wheel-icon">🎡</div>
-    </div>
-</div>
+            <div class="header-buttons">
+                <div class="textbook-btn" onclick="window.location.href='textbook.html'">
+                    <div class="textbook-icon">📚</div>
+                </div>
+                <div class="class-wheel-btn" onclick="showClassSelector()">
+                    <div class="wheel-icon">🎡</div>
+                </div>
+            </div>
 
             <nav class="luxury-nav">
                 <a href="index.html" class="nav-item active">Главная</a>
                 <a href="quiz.html" class="nav-item">Викторины</a>
                 <a href="leaders.html" class="nav-item">Таблица лидеров</a>
+                <a href="textbook.html" class="nav-item">Учебник</a>
+                <a href="admin.html" class="nav-item">Админ</a>
             </nav>
         </div>
     </header>
@@ -85,8 +87,8 @@
             <div class="features-container">
                 <div class="feature-card">
                     <div class="feature-icon">📚</div>
-                    <h3>3 викторины</h3>
-                    <p>Разнообразные темы</p>
+                    <h3>40+ викторин</h3>
+                    <p>Разнообразные темы по истории</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">⏰</div>
@@ -124,18 +126,7 @@
                         <a href="index.html">Главная</a>
                         <a href="quiz.html">Викторины</a>
                         <a href="leaders.html">Таблица лидеров</a>
-                    </div>
-                    <div class="link-group">
-                        <h4>Темы</h4>
-                        <a href="quiz.html">Культура Беларуси</a>
-                        <a href="quiz.html">Первая мировая война</a>
-                        <a href="quiz.html">Российская Империя</a>
-                    </div>
-                    <div class="link-group">
-                        <h4>Проект</h4>
-                        <a href="javascript:void(0)">О разработчиках</a>
-                        <a href="javascript:void(0)">Для учителей</a>
-                        <a href="javascript:void(0)">Поддержка</a>
+                        <a href="textbook.html">Учебник</a>
                     </div>
                 </div>
             </div>
@@ -146,67 +137,63 @@
                 </div>
                 <div class="footer-badge">
                     <span>🏆</span>
-                    <span>окак</span>
+                    <span>Учитесь с удовольствием</span>
                 </div>
             </div>
         </div>
     </footer>
 
-<div id="class-selector-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Выберите ваш класс</h3>
-            <span class="close-modal" onclick="closeClassSelector()">&times;</span>
-        </div>
-        <div class="class-selector">
-            <div class="class-option" data-class="А" onclick="selectClass('А')">
-                <div class="class-card">
-                    <div class="class-icon">🔬</div>
-                    <div class="class-info">
-                        <div class="class-name">11А</div>
-                        <div class="class-label">Физмат</div>
-                    </div>
-                    <div class="class-check">
-                        <div class="check-circle"></div>
+    <div id="class-selector-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Выберите ваш класс</h3>
+                <span class="close-modal" onclick="closeClassSelector()">&times;</span>
+            </div>
+            <div class="class-selector">
+                <div class="class-option" data-class="А" onclick="selectClass('А')">
+                    <div class="class-card">
+                        <div class="class-icon">🔬</div>
+                        <div class="class-info">
+                            <div class="class-name">11А</div>
+                            <div class="class-label">Физмат</div>
+                        </div>
+                        <div class="class-check"></div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="class-option" data-class="Б" onclick="selectClass('Б')">
-                <div class="class-card">
-                    <div class="class-icon">💼</div>
-                    <div class="class-info">
-                        <div class="class-name">11Б</div>
-                        <div class="class-label">Эконом</div>
-                    </div>
-                    <div class="class-check">
-                        <div class="check-circle"></div>
+                
+                <div class="class-option" data-class="Б" onclick="selectClass('Б')">
+                    <div class="class-card">
+                        <div class="class-icon">💼</div>
+                        <div class="class-info">
+                            <div class="class-name">11Б</div>
+                            <div class="class-label">Эконом</div>
+                        </div>
+                        <div class="class-check"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="wheel-modal" class="modal">
-    <div class="modal-content wheel-modal-content">
-        <div class="modal-header">
-            <h3>🎡 Колесо активностей - 11<span id="selected-class">А</span></h3>
-            <span class="close-modal" onclick="closeWheelModal()">&times;</span>
-        </div>
-        <div class="wheel-container">
-            <div id="wheel-wrapper">
-                <canvas id="wheel-canvas"></canvas>
-                <div id="wheel-arrow"></div>
-                <div id="wheel-center">
-                    <button id="spin-button">КРУТИТЬ</button>
+    <div id="wheel-modal" class="modal">
+        <div class="modal-content wheel-modal-content">
+            <div class="modal-header">
+                <h3>🎡 Колесо активностей - 11<span id="selected-class">А</span></h3>
+                <span class="close-modal" onclick="closeWheelModal()">&times;</span>
+            </div>
+            <div class="wheel-container">
+                <div id="wheel-wrapper">
+                    <canvas id="wheel-canvas"></canvas>
+                    <div id="wheel-center">
+                        <button id="spin-button">КРУТИТЬ</button>
+                    </div>
                 </div>
-                <div id="wheel-status"></div>
             </div>
         </div>
     </div>
-</div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
     <script>
         function createParticles() {
             const container = document.getElementById('particles');
@@ -236,67 +223,51 @@
             }
         }
 
-function showClassSelector() {
-    document.getElementById('class-selector-modal').style.display = 'block';
-}
-
-function closeClassSelector() {
-    document.getElementById('class-selector-modal').style.display = 'none';
-}
-
-function selectClass(className) {
-    document.getElementById('selected-class').textContent = className;
-    closeClassSelector();
-    showWheelModal();
-}
-
-function showWheelModal() {
-    const selectedClass = document.getElementById('selected-class').textContent;
-    document.getElementById('wheel-modal').style.display = 'block';
-    setTimeout(() => {
-        if (typeof initWheel === 'function') {
-            initWheel(selectedClass);
+        function showClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'block';
         }
-    }, 300);
-}
 
-function closeWheelModal() {
-    document.getElementById('wheel-modal').style.display = 'none';
-}
+        function closeClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'none';
+        }
 
-window.onclick = function(event) {
-    const classModal = document.getElementById('class-selector-modal');
-    const wheelModal = document.getElementById('wheel-modal');
-    
-    if (event.target === classModal) {
-        closeClassSelector();
-    }
-    if (event.target === wheelModal) {
-        closeWheelModal();
-    }
-}
+        function selectClass(className) {
+            document.getElementById('selected-class').textContent = className;
+            closeClassSelector();
+            showWheelModal();
+        }
+
+        function showWheelModal() {
+            const selectedClass = document.getElementById('selected-class').textContent;
+            document.getElementById('wheel-modal').style.display = 'block';
+            setTimeout(() => {
+                if (typeof initWheel === 'function') {
+                    initWheel(selectedClass);
+                }
+            }, 300);
+        }
+
+        function closeWheelModal() {
+            document.getElementById('wheel-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const classModal = document.getElementById('class-selector-modal');
+            const wheelModal = document.getElementById('wheel-modal');
+            
+            if (event.target === classModal) {
+                closeClassSelector();
+            }
+            if (event.target === wheelModal) {
+                closeWheelModal();
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
-            
-            const cards = document.querySelectorAll('.elegant-card');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.3}s`;
-            });
-
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    card.style.transform = 'translateY(-15px) scale(1.05)';
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'translateY(0) scale(1)';
-                });
-            });
         });
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p2.js/0.6.0/p2.min.js"></script>
     <script src="wheel.js"></script>
 </body>
 </html>
