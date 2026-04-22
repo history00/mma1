@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="quiz-style.css">
     <link rel="stylesheet" href="wheel.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="animated-background">
@@ -49,7 +48,6 @@
                 <a href="quiz.html" class="nav-item active">Викторины</a>
                 <a href="leaders.html" class="nav-item">Таблица лидеров</a>
                 <a href="textbook.html" class="nav-item">Учебник</a>
-                <a href="admin.html" class="nav-item">Админ</a>
             </nav>
         </div>
     </header>
@@ -62,7 +60,7 @@
             </div>
 
             <div class="quiz-grid" id="quiz-grid">
-                <!-- Карточки загружаются динамически -->
+                <!-- Карточки загружаются здесь -->
             </div>
         </div>
 
@@ -227,8 +225,6 @@
     <audio id="correct-sound" preload="auto"><source src="sounds/correct.mp3" type="audio/mpeg"></audio>
     <audio id="wrong-sound" preload="auto"><source src="sounds/wrong.mp3" type="audio/mpeg"></audio>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="config.js"></script>
     <script src="quiz.js"></script>
     <script src="wheel.js"></script>
 </body>
