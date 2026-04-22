@@ -60,7 +60,6 @@
             </div>
 
             <div class="quiz-grid" id="quiz-grid">
-                <!-- Карточки загружаются здесь -->
             </div>
         </div>
 
@@ -181,24 +180,29 @@
                 <span class="close-modal" onclick="closeClassSelector()">×</span>
             </div>
             <div class="class-selector">
-                <div class="class-option" onclick="selectClass('А')">
+                <div class="class-option" data-class="А" onclick="selectClass('А')">
                     <div class="class-card">
                         <div class="class-icon">🔬</div>
                         <div class="class-info">
                             <div class="class-name">11А</div>
                             <div class="class-label">Физмат</div>
                         </div>
-                        <div class="class-check"></div>
+                        <div class="class-check">
+                            <div class="check-circle"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="class-option" onclick="selectClass('Б')">
+                
+                <div class="class-option" data-class="Б" onclick="selectClass('Б')">
                     <div class="class-card">
                         <div class="class-icon">💼</div>
                         <div class="class-info">
                             <div class="class-name">11Б</div>
                             <div class="class-label">Эконом</div>
                         </div>
-                        <div class="class-check"></div>
+                        <div class="class-check">
+                            <div class="check-circle"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -214,17 +218,98 @@
             <div class="wheel-container">
                 <div id="wheel-wrapper">
                     <canvas id="wheel-canvas"></canvas>
+                    <div id="wheel-arrow"></div>
                     <div id="wheel-center">
                         <button id="spin-button">КРУТИТЬ</button>
                     </div>
+                    <div id="wheel-status"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <audio id="correct-sound" preload="auto"><source src="sounds/correct.mp3" type="audio/mpeg"></audio>
-    <audio id="wrong-sound" preload="auto"><source src="sounds/wrong.mp3" type="audio/mpeg"></audio>
+    <audio id="correct-sound" preload="auto">
+        <source src="sounds/correct.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrong-sound" preload="auto">
+        <source src="sounds/wrong.mp3" type="audio/mpeg">
+    </audio>
 
+    <script>
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${posX}%;
+                    top: ${posY}%;
+                    animation-duration: ${duration}s;
+                    animation-delay: ${delay}s;
+                    opacity: ${Math.random() * 0.3 + 0.1};
+                `;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        function showClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'block';
+        }
+
+        function closeClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'none';
+        }
+
+        function selectClass(className) {
+            document.getElementById('selected-class').textContent = className;
+            closeClassSelector();
+            showWheelModal();
+        }
+
+        function showWheelModal() {
+            const selectedClass = document.getElementById('selected-class').textContent;
+            document.getElementById('wheel-modal').style.display = 'block';
+            setTimeout(() => {
+                if (typeof initWheel === 'function') {
+                    initWheel(selectedClass);
+                }
+            }, 300);
+        }
+
+        function closeWheelModal() {
+            document.getElementById('wheel-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const classModal = document.getElementById('class-selector-modal');
+            const wheelModal = document.getElementById('wheel-modal');
+            
+            if (event.target === classModal) {
+                closeClassSelector();
+            }
+            if (event.target === wheelModal) {
+                closeWheelModal();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p2.js/0.6.0/p2.min.js"></script>
     <script src="quiz.js"></script>
     <script src="wheel.js"></script>
 </body>
