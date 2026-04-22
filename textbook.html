@@ -15,8 +15,13 @@
             <div class="floating-element el-1">🏛</div>
             <div class="floating-element el-2">📜</div>
             <div class="floating-element el-3">👑</div>
+            <div class="floating-element el-4">🏆</div>
+            <div class="floating-element el-5">⚔️</div>
         </div>
         <div class="gradient-overlay"></div>
+        <div class="light-beam beam-1"></div>
+        <div class="light-beam beam-2"></div>
+        <div class="light-beam beam-3"></div>
     </div>
 
     <header>
@@ -30,7 +35,7 @@
             </div>
             
             <div class="header-buttons">
-                <div class="textbook-btn active" onclick="window.location.href='textbook.html'">
+                <div class="textbook-btn active">
                     <div class="textbook-icon">📚</div>
                 </div>
                 <div class="class-wheel-btn" onclick="showClassSelector()">
@@ -48,16 +53,16 @@
         </div>
     </header>
 
-    <main class="textbook-container">
-        <div class="textbook-content">
-            <h2>📚 Электронный учебник</h2>
-            <p class="subtitle">Материалы для подготовки к урокам</p>
+    <main class="textbook-main">
+        <div class="textbook-wrapper">
+            <h2 class="textbook-title">📚 Электронный учебник</h2>
+            <p class="textbook-subtitle">Материалы для подготовки к урокам</p>
 
             <div id="materials-list" class="materials-list">
-                <!-- Динамически загружается -->
+                <!-- Карточки загружаются здесь -->
             </div>
 
-            <div id="no-materials" class="no-materials">
+            <div id="no-materials" class="no-materials" style="display:none;">
                 <h3>📄</h3>
                 <p>Материалы ещё не добавлены.</p>
                 <p>Учитель добавит ссылки через админ-панель.</p>
