@@ -6,17 +6,17 @@
     <title>Электронный учебник</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="textbook-style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 </head>
 <body>
     <div class="animated-background">
         <div class="particles-container" id="particles"></div>
         <div class="floating-elements">
             <div class="floating-element el-1">🏛</div>
-            <div class="floating-element el-2">📜</div>
+            <div class="floating-element el-2">⚔️</div>
             <div class="floating-element el-3">👑</div>
-            <div class="floating-element el-4">🏆</div>
-            <div class="floating-element el-5">⚔️</div>
+            <div class="floating-element el-4">📜</div>
+            <div class="floating-element el-5">🏆</div>
         </div>
         <div class="gradient-overlay"></div>
         <div class="light-beam beam-1"></div>
@@ -48,24 +48,66 @@
                 <a href="quiz.html" class="nav-item">Викторины</a>
                 <a href="leaders.html" class="nav-item">Таблица лидеров</a>
                 <a href="textbook.html" class="nav-item active">Учебник</a>
-                <a href="admin.html" class="nav-item">Админ</a>
             </nav>
         </div>
     </header>
 
-    <main class="textbook-main">
-        <div class="textbook-wrapper">
-            <h2 class="textbook-title">📚 Электронный учебник</h2>
-            <p class="textbook-subtitle">Материалы для подготовки к урокам</p>
-
-            <div id="materials-list" class="materials-list">
-                <!-- Карточки загружаются здесь -->
+    <main class="textbook-container">
+        <div class="textbook-sidebar">
+            <div class="textbook-search">
+                <input type="text" id="textbook-search" placeholder="🔍 Поиск по содержанию...">
             </div>
+            
+            <div class="chapters-list" id="chapters-list">
+            </div>
+        </div>
 
-            <div id="no-materials" class="no-materials" style="display:none;">
-                <h3>📄</h3>
-                <p>Материалы ещё не добавлены.</p>
-                <p>Учитель добавит ссылки через админ-панель.</p>
+        <div class="textbook-content">
+            <div class="pdf-viewer-container">
+                <div class="pdf-controls">
+                    <button class="pdf-btn" id="prev-page">
+                        <span>⬅️</span>
+                        <span>Назад</span>
+                    </button>
+                    
+                    <span class="page-info">
+                        Страница: <span id="page-num">1</span> / <span id="page-count">-</span>
+                    </span>
+                    
+                    <button class="pdf-btn" id="next-page">
+                        <span>➡️</span>
+                        <span>Вперед</span>
+                    </button>
+                    
+                    <button class="pdf-btn" id="zoom-out">
+                        <span>🔍</span>
+                        <span>-</span>
+                    </button>
+                    
+                    <button class="pdf-btn" id="zoom-in">
+                        <span>🔍</span>
+                        <span>+</span>
+                    </button>
+                    
+                    <button class="pdf-btn" id="fit-width">
+                        <span>📏</span>
+                        <span>По ширине</span>
+                    </button>
+                    
+                    <button class="pdf-btn fullscreen-toggle" id="fullscreen-toggle">
+                        <span>⛶</span>
+                        <span>Полный экран</span>
+                    </button>
+                </div>
+                
+                <div class="pdf-viewer">
+                    <canvas id="pdf-canvas"></canvas>
+                </div>
+                
+                <div class="pdf-loading" id="pdf-loading">
+                    <div class="loading-spinner"></div>
+                    <p>Загрузка учебника...</p>
+                </div>
             </div>
         </div>
     </main>
@@ -103,7 +145,6 @@
                             <div class="class-name">11А</div>
                             <div class="class-label">Физмат</div>
                         </div>
-                        <div class="class-check"></div>
                     </div>
                 </div>
                 <div class="class-option" onclick="selectClass('Б')">
@@ -113,7 +154,6 @@
                             <div class="class-name">11Б</div>
                             <div class="class-label">Эконом</div>
                         </div>
-                        <div class="class-check"></div>
                     </div>
                 </div>
             </div>
@@ -137,7 +177,10 @@
         </div>
     </div>
 
-    <script src="config.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+    </script>
+    
     <script src="textbook.js"></script>
     <script src="wheel.js"></script>
 </body>
