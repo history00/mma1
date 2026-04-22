@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблица лидеров - Викторины</title>
+    <title>Таблица лидеров</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="wheel.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -54,19 +54,17 @@
     </header>
 
     <main class="quiz-container">
-        <!-- Экран выбора викторины -->
         <div id="quiz-selection-screen" class="screen active">
             <div class="quiz-selection-header">
                 <h2>Таблица лидеров</h2>
-                <p>Выберите тему, чтобы посмотреть результаты</p>
+                <p>Выберите тему, чтобы посмотреть рейтинг</p>
             </div>
 
             <div class="quiz-grid" id="leaders-quiz-grid">
-                <!-- Динамически загружается -->
+                <!-- Карточки загружаются здесь -->
             </div>
         </div>
 
-        <!-- Экран таблицы лидеров -->
         <div id="leaderboard-screen" class="screen">
             <div class="leaderboard-screen">
                 <button class="luxury-btn btn-secondary btn-small" onclick="showQuizSelection()">
@@ -79,7 +77,7 @@
 
                 <div class="leaders-container">
                     <div class="leaderboard-list" id="leaders-list">
-                        <!-- Динамически заполняется -->
+                        <!-- Лидеры загружаются здесь -->
                     </div>
                 </div>
 
@@ -92,7 +90,25 @@
         </div>
     </main>
 
-    <!-- Модальные окна -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">📜</div>
+                    <div class="footer-brand-text">
+                        <h3>Таблица лидеров</h3>
+                        <p>11 класс — История</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-info">
+                    <p>&copy; 2025 Викторины. Разработано Владом и Сашей.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <div id="password-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -100,8 +116,8 @@
                 <span class="close-modal" onclick="hidePasswordModal()">×</span>
             </div>
             <div class="modal-body" style="padding: 2rem;">
-                <input type="password" id="admin-password" class="nickname-input" placeholder="Пароль" style="width:100%;">
-                <div style="text-align:center; margin-top:1.5rem;">
+                <input type="password" id="admin-password" class="nickname-input" placeholder="Пароль" style="width:100%; margin-bottom:1rem;">
+                <div style="text-align:center;">
                     <button class="luxury-btn btn-secondary" onclick="hidePasswordModal()">Отмена</button>
                     <button class="luxury-btn btn-primary" onclick="checkAdminPassword()">Войти</button>
                 </div>
@@ -116,35 +132,58 @@
                 <span class="close-modal" onclick="hideConfirmClearModal()">×</span>
             </div>
             <div class="modal-body" style="padding:2rem; text-align:center;">
-                <p style="margin-bottom:2rem; color:#ff6b6b;">Вы уверены, что хотите удалить ВСЕ результаты?</p>
+                <p style="margin-bottom:2rem; color:#ff6b6b;">⚠️ Удалить ВСЕ результаты? Это необратимо!</p>
                 <button class="luxury-btn btn-secondary" onclick="hideConfirmClearModal()">Отмена</button>
-                <button class="luxury-btn btn-primary" onclick="clearAllResults()">Да, удалить всё</button>
+                <button class="luxury-btn btn-primary" onclick="clearAllResults()">Да, удалить</button>
             </div>
         </div>
     </div>
 
-    <!-- Модальные окна класса и колеса (как в других файлах) -->
-    <div id="class-selector-modal" class="modal">...</div>
-    <div id="wheel-modal" class="modal">...</div>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-main">
-                <div class="footer-brand">
-                    <div class="footer-logo">📜</div>
-                    <div class="footer-brand-text">
-                        <h3>Викторины</h3>
-                        <p>11 класс — История</p>
+    <div id="class-selector-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Выберите ваш класс</h3>
+                <span class="close-modal" onclick="closeClassSelector()">×</span>
+            </div>
+            <div class="class-selector">
+                <div class="class-option" onclick="selectClass('А')">
+                    <div class="class-card">
+                        <div class="class-icon">🔬</div>
+                        <div class="class-info">
+                            <div class="class-name">11А</div>
+                            <div class="class-label">Физмат</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="class-option" onclick="selectClass('Б')">
+                    <div class="class-card">
+                        <div class="class-icon">💼</div>
+                        <div class="class-info">
+                            <div class="class-name">11Б</div>
+                            <div class="class-label">Эконом</div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <div class="footer-info">
-                    <p>&copy; 2025 Викторины. Разработано Владом и Сашей.</p>
+        </div>
+    </div>
+
+    <div id="wheel-modal" class="modal">
+        <div class="modal-content wheel-modal-content">
+            <div class="modal-header">
+                <h3>🎡 Колесо активностей - 11<span id="selected-class">А</span></h3>
+                <span class="close-modal" onclick="closeWheelModal()">×</span>
+            </div>
+            <div class="wheel-container">
+                <div id="wheel-wrapper">
+                    <canvas id="wheel-canvas"></canvas>
+                    <div id="wheel-center">
+                        <button id="spin-button">КРУТИТЬ</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
 
     <script src="config.js"></script>
     <script src="wheel.js"></script>
@@ -154,10 +193,18 @@
 
         async function loadQuizCardsForLeaders() {
             const grid = document.getElementById('leaders-quiz-grid');
-            grid.innerHTML = '';
+            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;">Загрузка...</div>';
 
             try {
-                const { data } = await sb.from('quizzes').select('*').eq('hidden', false).order('ord');
+                const { data, error } = await sb
+                    .from('quizzes')
+                    .select('*')
+                    .eq('hidden', false)
+                    .order('ord', { ascending: true });
+
+                if (error) throw error;
+
+                grid.innerHTML = '';
 
                 data.forEach(quiz => {
                     const card = document.createElement('div');
@@ -165,7 +212,7 @@
                     card.style.height = '380px';
                     card.innerHTML = `
                         <div class="quiz-image">
-                            <img src="${quiz.img || 'images/quiz_covers/default.jpg'}" class="quiz-cover-image">
+                            <img src="${quiz.img || 'images/default.jpg'}" class="quiz-cover-image">
                         </div>
                         <div class="quiz-content">
                             <h3 class="quiz-title">${quiz.title}</h3>
@@ -174,8 +221,10 @@
                     card.onclick = () => showLeaderboard(quiz.id, quiz.title);
                     grid.appendChild(card);
                 });
+
             } catch (e) {
                 console.error(e);
+                grid.innerHTML = '<div style="grid-column:1/-1;color:#ff6b6b;">Ошибка загрузки</div>';
             }
         }
 
@@ -188,15 +237,17 @@
             container.innerHTML = '<div style="text-align:center;padding:3rem;">Загрузка лидеров...</div>';
 
             try {
-                const { data } = await sb
+                const { data, error } = await sb
                     .from('results')
                     .select('*')
                     .eq('quiz_id', quizId)
                     .order('score', { ascending: false })
                     .order('time_sec', { ascending: true });
 
+                if (error) throw error;
+
                 if (data.length === 0) {
-                    container.innerHTML = `<div style="text-align:center;padding:3rem;color:#aaa;">Пока нет результатов по этой теме</div>`;
+                    container.innerHTML = '<div style="text-align:center;padding:3rem;color:#aaa;">Пока нет результатов</div>';
                     return;
                 }
 
@@ -204,6 +255,7 @@
                 data.forEach((result, index) => {
                     const rankClass = index === 0 ? 'top-1' : index === 1 ? 'top-2' : index === 2 ? 'top-3' : '';
                     const date = new Date(result.created_at).toLocaleDateString('ru-RU');
+                    const time = formatLeaderTime(result.time_sec);
 
                     html += `
                         <div class="leader-item ${rankClass}">
@@ -212,7 +264,7 @@
                                 <div class="leader-name">${result.player_name}</div>
                                 <div class="leader-stats">
                                     <div class="leader-score">${result.score}/${result.total}</div>
-                                    <div class="leader-time">${formatTime(result.time_sec)}</div>
+                                    <div class="leader-time">${time}</div>
                                     <div class="leader-date">${date}</div>
                                 </div>
                             </div>
@@ -221,10 +273,18 @@
                 });
 
                 container.innerHTML = html;
+
             } catch (e) {
                 console.error(e);
-                container.innerHTML = `<div style="color:#ff6b6b;text-align:center;">Ошибка загрузки</div>`;
+                container.innerHTML = '<div style="color:#ff6b6b;text-align:center;">Ошибка загрузки</div>';
             }
+        }
+
+        function formatLeaderTime(seconds) {
+            if (seconds < 60) return `${seconds} сек`;
+            const min = Math.floor(seconds / 60);
+            const sec = seconds % 60;
+            return `${min} мин ${sec} сек`;
         }
 
         function showQuizSelection() {
@@ -247,7 +307,7 @@
                 hidePasswordModal();
                 showConfirmClearModal();
             } else {
-                alert('Неверный пароль!');
+                alert('❌ Неверный пароль!');
                 document.getElementById('admin-password').value = '';
             }
         }
@@ -261,41 +321,61 @@
         }
 
         async function clearAllResults() {
-            if (!confirm('Вы уверены? Это действие нельзя отменить!')) return;
-
             try {
-                await sb.from('results').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-                alert('Все результаты очищены!');
+                const { error } = await sb.from('results').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                
+                if (error) throw error;
+
+                alert('✅ Все результаты удалены!');
                 hideConfirmClearModal();
                 location.reload();
+
             } catch (e) {
-                alert('Ошибка очистки');
+                console.error(e);
+                alert('❌ Ошибка удаления');
             }
         }
 
-        function formatTime(seconds) {
-            if (seconds < 60) return `${seconds} сек`;
-            const min = Math.floor(seconds / 60);
-            return `${min} мин ${seconds % 60} сек`;
+        function showClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'block';
         }
 
-        // Модальные окна класса и колеса (можно вынести в отдельный файл позже)
-        function showClassSelector() { /* ... */ }
-        function closeClassSelector() { /* ... */ }
-        function selectClass() { /* ... */ }
-        function showWheelModal() { /* ... */ }
-        function closeWheelModal() { /* ... */ }
+        function closeClassSelector() {
+            document.getElementById('class-selector-modal').style.display = 'none';
+        }
+
+        function selectClass(className) {
+            document.getElementById('selected-class').textContent = className;
+            closeClassSelector();
+            showWheelModal();
+        }
+
+        function showWheelModal() {
+            document.getElementById('wheel-modal').style.display = 'block';
+            setTimeout(() => {
+                if (typeof initWheel === 'function') initWheel(document.getElementById('selected-class').textContent);
+            }, 300);
+        }
+
+        function closeWheelModal() {
+            document.getElementById('wheel-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const classModal = document.getElementById('class-selector-modal');
+            const wheelModal = document.getElementById('wheel-modal');
+            const passModal = document.getElementById('password-modal');
+            const confModal = document.getElementById('confirm-clear-modal');
+            
+            if (event.target === classModal) closeClassSelector();
+            if (event.target === wheelModal) closeWheelModal();
+            if (event.target === passModal) hidePasswordModal();
+            if (event.target === confModal) hideConfirmClearModal();
+        }
 
         document.addEventListener('DOMContentLoaded', async () => {
             sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             await loadQuizCardsForLeaders();
-
-            // Проверка параметра ?quiz= в URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const quizId = urlParams.get('quiz');
-            if (quizId) {
-                // Можно добавить автоматический переход, если нужно
-            }
         });
     </script>
 </body>
