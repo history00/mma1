@@ -47,7 +47,6 @@
                 <a href="quiz.html" class="nav-item">Викторины</a>
                 <a href="leaders.html" class="nav-item">Таблица лидеров</a>
                 <a href="textbook.html" class="nav-item">Учебник</a>
-                <a href="admin.html" class="nav-item">Админ</a>
             </nav>
         </div>
     </header>
@@ -147,10 +146,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Выберите ваш класс</h3>
-                <span class="close-modal" onclick="closeClassSelector()">&times;</span>
+                <span class="close-modal" onclick="closeClassSelector()">×</span>
             </div>
             <div class="class-selector">
-                <div class="class-option" data-class="А" onclick="selectClass('А')">
+                <div class="class-option" onclick="selectClass('А')">
                     <div class="class-card">
                         <div class="class-icon">🔬</div>
                         <div class="class-info">
@@ -161,7 +160,7 @@
                     </div>
                 </div>
                 
-                <div class="class-option" data-class="Б" onclick="selectClass('Б')">
+                <div class="class-option" onclick="selectClass('Б')">
                     <div class="class-card">
                         <div class="class-icon">💼</div>
                         <div class="class-info">
@@ -179,7 +178,7 @@
         <div class="modal-content wheel-modal-content">
             <div class="modal-header">
                 <h3>🎡 Колесо активностей - 11<span id="selected-class">А</span></h3>
-                <span class="close-modal" onclick="closeWheelModal()">&times;</span>
+                <span class="close-modal" onclick="closeWheelModal()">×</span>
             </div>
             <div class="wheel-container">
                 <div id="wheel-wrapper">
@@ -192,8 +191,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="config.js"></script>
     <script>
         function createParticles() {
             const container = document.getElementById('particles');
