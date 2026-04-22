@@ -1,0 +1,235 @@
+/* ====================== ADMIN PANEL ====================== */
+
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+    background: var(--deep-charcoal);
+    color: var(--cream-white);
+}
+
+.admin-sidebar {
+    width: 280px;
+    background: rgba(26, 26, 26, 0.95);
+    border-right: 2px solid var(--gold-accent);
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--gold-accent);
+    font-family: 'Playfair Display', serif;
+}
+
+.admin-menu button {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    color: rgba(245, 245, 245, 0.8);
+    text-align: left;
+    font-size: 1.1rem;
+    margin: 0.4rem 0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.admin-menu button:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold-accent);
+    transform: translateX(8px);
+}
+
+.admin-menu button.active {
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--gold-accent);
+    border-left: 4px solid var(--gold-accent);
+}
+
+.admin-content {
+    flex: 1;
+    padding: 2.5rem;
+    overflow-y: auto;
+    background: rgba(45, 27, 27, 0.6);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeInUp 0.4s ease;
+}
+
+/* Формы */
+.form-group {
+    background: rgba(26, 26, 26, 0.8);
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    margin-bottom: 2rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    margin: 0.8rem 0;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    min-height: 300px;
+    font-family: monospace;
+    resize: vertical;
+}
+
+/* Кнопки */
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold-accent), var(--bronze));
+    color: #1a1a1a;
+    font-weight: 700;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Строки материалов и результатов */
+.material-row,
+.result-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 1.5rem;
+    background: rgba(26, 26, 26, 0.7);
+    border-radius: 12px;
+    margin-bottom: 0.8rem;
+    border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.url-text {
+    color: #aaa;
+    font-size: 0.9rem;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.delete-btn {
+    background: #ff4757;
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+/* PIN экран */
+.pin-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(26, 26, 26, 0.95);
+    padding: 3rem 4rem;
+    border-radius: 20px;
+    border: 2px solid var(--gold-accent);
+}
+
+.pin-dots {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.pin-dots span {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #333;
+    transition: all 0.3s;
+}
+
+.pin-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.pin-keypad button {
+    width: 80px;
+    height: 80px;
+    font-size: 1.8rem;
+    background: rgba(45, 27, 27, 0.8);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pin-keypad button:hover {
+    background: var(--gold-accent);
+    color: #1a1a1a;
+    transform: scale(1.1);
+}
+
+.delete-btn {
+    background: #ff4757 !important;
+}
+
+.confirm-btn {
+    background: #2ed573 !important;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптив */
+@media (max-width: 1024px) {
+    .admin-container {
+        flex-direction: column;
+    }
+    .admin-sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 1rem;
+    }
+}
