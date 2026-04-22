@@ -6,14 +6,14 @@
     <title>Админ-панель</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="admin-style.css">
-    <link rel="stylesheet" href="admin-style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="admin-container">
-        <!-- Экран ввода PIN -->
-        <div id="pin-screen" class="screen active">
-            <div class="pin-container">
+
+        <!-- PIN ЭКРАН -->
+        <div id="pin-screen" class="pin-screen active">
+            <div class="pin-box">
                 <h2>Введите PIN-код</h2>
                 <div class="pin-dots" id="pin-dots">
                     <span></span><span></span><span></span><span></span><span></span>
@@ -28,66 +28,32 @@
                     <button onclick="enterPin(7)">7</button>
                     <button onclick="enterPin(8)">8</button>
                     <button onclick="enterPin(9)">9</button>
-                    <button onclick="clearPin()" class="delete-btn">⌫</button>
+                    <button onclick="clearPin()" class="btn-delete">⌫</button>
                     <button onclick="enterPin(0)">0</button>
-                    <button onclick="submitPin()" class="confirm-btn">✓</button>
+                    <button onclick="submitPin()" class="btn-confirm">✓</button>
                 </div>
             </div>
         </div>
 
-        <!-- Основная админ-панель -->
-        <div id="admin-panel" class="screen">
+        <!-- АДМИН ПАНЕЛЬ -->
+        <div id="admin-main" class="admin-main hidden">
             <div class="admin-sidebar">
-                <div class="admin-logo">🛠 Админ</div>
-                <div class="admin-menu">
-                    <button onclick="showTab(1)" class="active">📝 Викторины</button>
-                    <button onclick="showTab(2)">✏️ Редактировать</button>
-                    <button onclick="showTab(3)">👥 Ученики</button>
-                    <button onclick="showTab(4)">🎡 Очередь колеса</button>
-                    <button onclick="showTab(5)">📚 Учебник</button>
-                    <button onclick="showTab(6)">🏆 Лидеры</button>
-                    <button onclick="showTab(7)">🗄 SQL</button>
-                </div>
+                <div class="admin-logo">🛠 АДМИН</div>
+                <button onclick="showAdminTab(1)" class="admin-tab active">📝 Викторины</button>
+                <button onclick="showAdminTab(5)" class="admin-tab">📚 Учебник</button>
+                <button onclick="showAdminTab(6)" class="admin-tab">🏆 Лидеры</button>
             </div>
 
             <div class="admin-content">
-                <!-- Вкладка 1: Викторины -->
-                <div id="tab-1" class="tab-content active">
-                    <h2>Управление викторинами</h2>
-                    <!-- Форма добавления -->
-                    <div class="form-group">
-                        <input type="text" id="new-quiz-title" placeholder="Название викторины">
-                        <input type="text" id="new-quiz-desc" placeholder="Краткое описание">
-                        <input type="text" id="new-quiz-img" placeholder="Ссылка на обложку">
-                        <input type="number" id="new-quiz-order" placeholder="Порядок" value="1">
-                        <textarea id="new-quiz-questions" rows="12" placeholder="Вставьте вопросы в текстовом формате..."></textarea>
-                        <button onclick="createQuiz()" class="btn-primary">Сохранить викторину</button>
+                <!-- Вкладка Учебник -->
+                <div id="admin-tab-5" class="admin-tab-content active">
+                    <h2>Управление учебником</h2>
+                    <div class="form-row">
+                        <input type="text" id="material-title" placeholder="Название материала">
+                        <input type="text" id="material-url" placeholder="Ссылка на PDF">
+                        <button onclick="addMaterial()">+ Добавить</button>
                     </div>
-                </div>
-
-                <!-- Вкладка 5: Учебник -->
-                <div id="tab-5" class="tab-content">
-                    <h2>Управление материалами учебника</h2>
-                    <div class="form-group">
-                        <input type="text" id="new-material-title" placeholder="Название материала">
-                        <input type="text" id="new-material-url" placeholder="Ссылка на PDF">
-                        <button onclick="addTextbookMaterial()" class="btn-primary">+ Добавить</button>
-                    </div>
-                    <div id="textbook-materials-list"></div>
-                </div>
-
-                <!-- Вкладка 6: Лидеры -->
-                <div id="tab-6" class="tab-content">
-                    <h2>Результаты всех викторин</h2>
-                    <button onclick="clearAllResultsAdmin()" class="btn-danger">🗑 Очистить все результаты</button>
-                    <div id="all-results-list"></div>
-                </div>
-
-                <!-- Вкладка 7: SQL -->
-                <div id="tab-7" class="tab-content">
-                    <h2>SQL скрипт создания таблиц</h2>
-                    <pre id="sql-script"></pre>
-                    <button onclick="copySQL()">📋 Скопировать SQL</button>
+                    <div id="admin-materials-list" class="admin-list"></div>
                 </div>
             </div>
         </div>
