@@ -1,6 +1,4 @@
-// quiz.js — ПОЛНАЯ ВЕРСИЯ
-
-const quizDatabase = {}; // оставляем для совместимости, но будем загружать из Supabase
+// quiz.js — ПОЛНАЯ ИСПРАВЛЕННАЯ ВЕРСИЯ
 
 let sb;
 let currentQuiz = null;
@@ -15,6 +13,9 @@ let soundEnabled = true;
 let selectedAnswers = [];
 let isMultipleSelection = false;
 let maxSelections = 0;
+let isFullscreen = false;
+
+// ====================== ФОРМАТИРОВАНИЕ ======================
 
 function formatTime(seconds) {
     if (seconds < 60) return `${seconds} сек`;
@@ -23,6 +24,8 @@ function formatTime(seconds) {
     return `${minutes} мин. ${remainingSeconds} сек`;
 }
 
+// ====================== ЗВУК ======================
+
 function toggleSound() {
     soundEnabled = !soundEnabled;
     updateSoundButton();
@@ -30,42 +33,57 @@ function toggleSound() {
 }
 
 function updateSoundButton() {
-    const soundToggle = document.getElementById('sound-toggle');
-    const soundIcon = document.getElementById('sound-icon');
-    if (soundToggle && soundIcon) {
-        soundIcon.textContent = soundEnabled ? '🔊' : '🔇';
-    }
+    const btn = document.getElementById('sound-toggle');
+    if (btn) btn.textContent = soundEnabled ? '🔊' : '🔇';
 }
 
 function playCorrectSound() {
     if (!soundEnabled) return;
     const sound = document.getElementById('correct-sound');
-    if (sound) sound.play().catch(() => {});
+    if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
+    }
 }
 
 function playWrongSound() {
     if (!soundEnabled) return;
     const sound = document.getElementById('wrong-sound');
-    if (sound) sound.play().catch(() => {});
+    if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
+    }
 }
+
+// ====================== ЗАГРУЗКА ВИКТОРИН ======================
 
 async function loadQuizzes() {
     const grid = document.getElementById('quiz-grid');
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#aaa;">Загрузка викторин...</div>';
+    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:3rem; color:#aaa;">Загрузка викторин...</div>';
 
     try {
-        const { data, error } = await sb.from('quizzes').select('*').eq('hidden', false).order('ord');
+        const { data, error } = await sb
+            .from('quizzes')
+            .select('*')
+            .eq('hidden', false)
+            .order('ord', { ascending: true });
+
         if (error) throw error;
 
         grid.innerHTML = '';
 
+        if (data.length === 0) {
+            grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:3rem; color:#aaa;">Викторины скоро появятся...</div>';
+            return;
+        }
+
         data.forEach(quiz => {
             const card = document.createElement('div');
             card.className = 'quiz-card';
-            card.style.height = '380px'; // фиксированная высота
+            card.style.height = '380px';
             card.innerHTML = `
                 <div class="quiz-image">
-                    <img src="${quiz.img || 'images/quiz_covers/default.jpg'}" class="quiz-cover-image" alt="${quiz.title}">
+                    <img src="${quiz.img || 'images/default.jpg'}" alt="${quiz.title}" class="quiz-cover-image">
                 </div>
                 <div class="quiz-content">
                     <h3 class="quiz-title">${quiz.title}</h3>
@@ -74,11 +92,14 @@ async function loadQuizzes() {
             card.onclick = () => startQuiz(quiz.id, quiz);
             grid.appendChild(card);
         });
+
     } catch (e) {
-        console.error(e);
-        grid.innerHTML = `<p style="color:#ff6b6b;grid-column:1/-1;text-align:center;">Ошибка загрузки. Проверьте Supabase.</p>`;
+        console.error('Ошибка загрузки викторин:', e);
+        grid.innerHTML = '<div style="grid-column:1/-1; color:#ff6b6b; text-align:center;">Ошибка загрузки. Проверьте Supabase.</div>';
     }
 }
+
+// ====================== СТАРТ ВИКТОРИНЫ ======================
 
 async function startQuiz(quizId, quizData) {
     currentQuizId = quizId;
@@ -100,6 +121,8 @@ async function startQuiz(quizId, quizData) {
     showQuestion();
 }
 
+// ====================== ТАЙМЕР ======================
+
 function startTimer() {
     timer = setInterval(() => {
         totalTimeSpent = Math.floor((new Date() - startTime) / 1000);
@@ -107,13 +130,12 @@ function startTimer() {
     }, 1000);
 }
 
+// ====================== ПОКАЗ ВОПРОСА ======================
+
 function showQuestion() {
     if (!currentQuiz) return;
 
     const question = currentQuiz.questions[currentQuestion];
-    
-    // Очистка старых подсказок
-    document.getElementById('timer-hint').innerHTML = '';
 
     // Прогресс
     const progress = ((currentQuestion) / currentQuiz.questions.length) * 100;
@@ -164,8 +186,12 @@ function showQuestion() {
     updateClockHint(question);
 }
 
+// ====================== ПОДСКАЗКА ЧАСАМИ ======================
+
 function updateClockHint(question) {
     const hintContainer = document.getElementById('timer-hint');
+    hintContainer.innerHTML = '';
+
     let clockIndex = 0;
 
     if (Array.isArray(question.correct)) {
@@ -181,6 +207,8 @@ function updateClockHint(question) {
     img.title = 'Подсказка: часы показывают правильный ответ';
     hintContainer.appendChild(img);
 }
+
+// ====================== ВЫБОР ОТВЕТА ======================
 
 function selectAnswer(selectedIndex) {
     const question = currentQuiz.questions[currentQuestion];
@@ -204,6 +232,8 @@ function selectAnswer(selectedIndex) {
     }
 }
 
+// ====================== ПРОВЕРКА ОДИНОЧНОГО ОТВЕТА ======================
+
 function checkSingleAnswer(selectedIndex) {
     const question = currentQuiz.questions[currentQuestion];
     const answerButtons = document.querySelectorAll('.answer-btn');
@@ -221,6 +251,7 @@ function checkSingleAnswer(selectedIndex) {
         answerButtons[selectedIndex].classList.add('correct');
         document.getElementById('quiz-feedback').innerHTML = '✅ Правильно! +1 балл';
         document.getElementById('quiz-feedback').className = 'quiz-feedback correct';
+        document.getElementById('quiz-feedback').style.display = 'block';
         score++;
         playCorrectSound();
     } else {
@@ -228,6 +259,7 @@ function checkSingleAnswer(selectedIndex) {
         answerButtons[question.correct].classList.add('correct');
         document.getElementById('quiz-feedback').innerHTML = '❌ Неправильно!';
         document.getElementById('quiz-feedback').className = 'quiz-feedback incorrect';
+        document.getElementById('quiz-feedback').style.display = 'block';
         document.getElementById('answer-explanation').textContent = question.explanation || '';
         document.getElementById('answer-explanation').style.display = 'block';
         playWrongSound();
@@ -235,6 +267,8 @@ function checkSingleAnswer(selectedIndex) {
 
     document.getElementById('next-btn').style.display = 'block';
 }
+
+// ====================== ПРОВЕРКА МНОЖЕСТВЕННОГО ОТВЕТА ======================
 
 function checkMultipleAnswer() {
     const question = currentQuiz.questions[currentQuestion];
@@ -261,11 +295,13 @@ function checkMultipleAnswer() {
     if (isCorrect) {
         document.getElementById('quiz-feedback').innerHTML = '✅ Правильно! +1 балл';
         document.getElementById('quiz-feedback').className = 'quiz-feedback correct';
+        document.getElementById('quiz-feedback').style.display = 'block';
         score++;
         playCorrectSound();
     } else {
         document.getElementById('quiz-feedback').innerHTML = '❌ Неправильно!';
         document.getElementById('quiz-feedback').className = 'quiz-feedback incorrect';
+        document.getElementById('quiz-feedback').style.display = 'block';
         document.getElementById('answer-explanation').textContent = question.explanation || '';
         document.getElementById('answer-explanation').style.display = 'block';
         playWrongSound();
@@ -274,8 +310,11 @@ function checkMultipleAnswer() {
     document.getElementById('next-btn').style.display = 'block';
 }
 
+// ====================== СЛЕДУЮЩИЙ ВОПРОС ======================
+
 function nextQuestion() {
     currentQuestion++;
+
     if (currentQuestion < currentQuiz.questions.length) {
         showQuestion();
     } else {
@@ -283,8 +322,15 @@ function nextQuestion() {
     }
 }
 
+// ====================== ЗАВЕРШЕНИЕ ======================
+
 function finishQuiz() {
     clearInterval(timer);
+
+    if (isFullscreen) {
+        exitFullscreen();
+    }
+
     document.getElementById('quiz-screen').classList.remove('active');
     document.getElementById('results-screen').classList.add('active');
 
@@ -294,9 +340,13 @@ function finishQuiz() {
     document.getElementById('total-score').textContent = score;
 }
 
+// ====================== ПЕРЕЗАПУСК ======================
+
 function restartQuiz() {
     window.location.reload();
 }
+
+// ====================== СОХРАНЕНИЕ РЕЗУЛЬТАТА ======================
 
 async function saveResults() {
     const playerName = document.getElementById('player-nickname').value.trim();
@@ -315,22 +365,77 @@ async function saveResults() {
         quiz_title: currentQuiz.title
     };
 
-    const { error } = await sb.from('results').insert(resultData);
+    try {
+        const { error } = await sb.from('results').insert(resultData);
 
-    if (error) {
-        console.error(error);
-        alert('Ошибка сохранения результата');
-    } else {
+        if (error) throw error;
+
         alert('✅ Результат сохранён в таблицу лидеров!');
         window.location.href = `leaders.html?quiz=${currentQuizId}`;
+    } catch (e) {
+        console.error('Ошибка сохранения:', e);
+        alert('Ошибка сохранения результата');
     }
 }
 
+// ====================== ПОЛНОЭКРАН ======================
+
+function toggleFullscreen() {
+    const elem = document.querySelector('.quiz-screen');
+    if (!isFullscreen) {
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        isFullscreen = true;
+    } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        isFullscreen = false;
+    }
+}
+
+// ====================== МОДАЛЬНЫЕ ОКНА ======================
+
+function showClassSelector() {
+    document.getElementById('class-selector-modal').style.display = 'block';
+}
+
+function closeClassSelector() {
+    document.getElementById('class-selector-modal').style.display = 'none';
+}
+
+function selectClass(className) {
+    document.getElementById('selected-class').textContent = className;
+    closeClassSelector();
+    showWheelModal();
+}
+
+function showWheelModal() {
+    document.getElementById('wheel-modal').style.display = 'block';
+    setTimeout(() => {
+        if (typeof initWheel === 'function') {
+            initWheel(document.getElementById('selected-class').textContent);
+        }
+    }, 300);
+}
+
+function closeWheelModal() {
+    document.getElementById('wheel-modal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    const classModal = document.getElementById('class-selector-modal');
+    const wheelModal = document.getElementById('wheel-modal');
+    
+    if (event.target === classModal) closeClassSelector();
+    if (event.target === wheelModal) closeWheelModal();
+}
+
+// ====================== ИНИЦИАЛИЗАЦИЯ ======================
+
 document.addEventListener('DOMContentLoaded', async () => {
     sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    await loadQuizzes();
     
     const savedSound = localStorage.getItem('quizSoundEnabled');
     soundEnabled = savedSound !== null ? JSON.parse(savedSound) : true;
     updateSoundButton();
+
+    await loadQuizzes();
 });
