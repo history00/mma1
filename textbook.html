@@ -30,7 +30,7 @@
             </div>
             
             <div class="header-buttons">
-                <div class="textbook-btn active">
+                <div class="textbook-btn active" onclick="window.location.href='textbook.html'">
                     <div class="textbook-icon">📚</div>
                 </div>
                 <div class="class-wheel-btn" onclick="showClassSelector()">
@@ -49,25 +49,18 @@
     </header>
 
     <main class="textbook-container">
-        <div class="textbook-sidebar">
-            <div class="textbook-search">
-                <input type="text" id="textbook-search" placeholder="🔍 Поиск по материалам...">
-            </div>
-            
-            <div class="chapters-list" id="materials-list">
-                <!-- Динамически загружается из Supabase -->
-            </div>
-        </div>
-
         <div class="textbook-content">
-            <div id="no-materials" style="display:none; text-align:center; padding:6rem 2rem;">
-                <h2>📄</h2>
-                <p>Материалы ещё не добавлены.</p>
-                <p style="color:#aaa; margin-top:1rem;">Учитель добавит их через админ-панель</p>
+            <h2>📚 Электронный учебник</h2>
+            <p class="subtitle">Материалы для подготовки к урокам</p>
+
+            <div id="materials-list" class="materials-list">
+                <!-- Динамически загружается -->
             </div>
 
-            <div id="materials-container" class="materials-grid">
-                <!-- Карточки материалов загружаются сюда -->
+            <div id="no-materials" class="no-materials">
+                <h3>📄</h3>
+                <p>Материалы ещё не добавлены.</p>
+                <p>Учитель добавит ссылки через админ-панель.</p>
             </div>
         </div>
     </main>
@@ -91,9 +84,53 @@
         </div>
     </footer>
 
-    <!-- Модальные окна класса и колеса -->
-    <div id="class-selector-modal" class="modal">...</div>
-    <div id="wheel-modal" class="modal">...</div>
+    <div id="class-selector-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Выберите ваш класс</h3>
+                <span class="close-modal" onclick="closeClassSelector()">×</span>
+            </div>
+            <div class="class-selector">
+                <div class="class-option" onclick="selectClass('А')">
+                    <div class="class-card">
+                        <div class="class-icon">🔬</div>
+                        <div class="class-info">
+                            <div class="class-name">11А</div>
+                            <div class="class-label">Физмат</div>
+                        </div>
+                        <div class="class-check"></div>
+                    </div>
+                </div>
+                <div class="class-option" onclick="selectClass('Б')">
+                    <div class="class-card">
+                        <div class="class-icon">💼</div>
+                        <div class="class-info">
+                            <div class="class-name">11Б</div>
+                            <div class="class-label">Эконом</div>
+                        </div>
+                        <div class="class-check"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="wheel-modal" class="modal">
+        <div class="modal-content wheel-modal-content">
+            <div class="modal-header">
+                <h3>🎡 Колесо активностей - 11<span id="selected-class">А</span></h3>
+                <span class="close-modal" onclick="closeWheelModal()">×</span>
+            </div>
+            <div class="wheel-container">
+                <div id="wheel-wrapper">
+                    <canvas id="wheel-canvas"></canvas>
+                    <div id="wheel-center">
+                        <button id="spin-button">КРУТИТЬ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="config.js"></script>
     <script src="textbook.js"></script>
