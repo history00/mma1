@@ -127,6 +127,12 @@
                         <a href="leaders.html">Таблица лидеров</a>
                         <a href="textbook.html">Учебник</a>
                     </div>
+                    <div class="link-group">
+                        <h4>Темы</h4>
+                        <a href="quiz.html">Культура Беларуси</a>
+                        <a href="quiz.html">Первая мировая война</a>
+                        <a href="quiz.html">Российская Империя</a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -149,25 +155,29 @@
                 <span class="close-modal" onclick="closeClassSelector()">×</span>
             </div>
             <div class="class-selector">
-                <div class="class-option" onclick="selectClass('А')">
+                <div class="class-option" data-class="А" onclick="selectClass('А')">
                     <div class="class-card">
                         <div class="class-icon">🔬</div>
                         <div class="class-info">
                             <div class="class-name">11А</div>
                             <div class="class-label">Физмат</div>
                         </div>
-                        <div class="class-check"></div>
+                        <div class="class-check">
+                            <div class="check-circle"></div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="class-option" onclick="selectClass('Б')">
+                <div class="class-option" data-class="Б" onclick="selectClass('Б')">
                     <div class="class-card">
                         <div class="class-icon">💼</div>
                         <div class="class-info">
                             <div class="class-name">11Б</div>
                             <div class="class-label">Эконом</div>
                         </div>
-                        <div class="class-check"></div>
+                        <div class="class-check">
+                            <div class="check-circle"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -183,9 +193,11 @@
             <div class="wheel-container">
                 <div id="wheel-wrapper">
                     <canvas id="wheel-canvas"></canvas>
+                    <div id="wheel-arrow"></div>
                     <div id="wheel-center">
                         <button id="spin-button">КРУТИТЬ</button>
                     </div>
+                    <div id="wheel-status"></div>
                 </div>
             </div>
         </div>
@@ -262,9 +274,25 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
+            
+            const cards = document.querySelectorAll('.elegant-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.3}s`;
+            });
+
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-15px) scale(1.05)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
         });
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p2.js/0.6.0/p2.min.js"></script>
     <script src="wheel.js"></script>
 </body>
 </html>
